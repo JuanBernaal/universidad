@@ -54,8 +54,11 @@ class TorreControl:
     def generarNumeroAleatorio(self):
         num1 = randint(10000, 99999)
         num2 = randint(10000, 99999)
+        if num1 > num2:
+            num1, num2 = num2, num1  # Intercambiar valores si num1 > num2
         numeroAleatorio = randint(num1, num2)
         return numeroAleatorio
+
 
     def simulacion(self):
         for aeronave in self.aeronaves:
