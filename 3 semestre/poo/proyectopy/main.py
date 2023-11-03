@@ -46,30 +46,32 @@ def agregarNaves(aeropuerto):
         printLinea()
 
 def reserva(aeropuerto):
-    pasajero = Pasajero()
-    pasajero.obtenerDatosPasajero()
-    printLinea()
-    flag = True
+    if aeropuerto.empty():
+        print("No hay vuelos")
+    else: 
+        pasajero = Pasajero()
+        pasajero.obtenerDatosPasajero()
+        printLinea() 
+        flag = True
+        while flag:
+            pasajero.getInformacion()
+            s = int(input("¿Los datos son correctos?\n1. Sí\n2. No\n"))
+            if s == 2:
+                pasajero.obtenerDatosPasajero()
+            else:
+                flag = False
 
-    while flag:
-        pasajero.getInformacion()
-        s = int(input("¿Los datos son correctos?\n1. Sí\n2. No\n"))
-        if s == 2:
-            pasajero.obtenerDatosPasajero()
-        else:
-            flag = False
-
-    print("Seleccione su vuelo")
-    aeropuerto.printDestinos()
-    selec = int(input())
-    selec -= 1
-    tmp = aeropuerto.obtenerVuelo(selec)
-    pasajero.asignarVuelo(tmp)
-    print("El vuelo ha sido reservado, ¿desea consultarlo?\n1. Sí\n2. No\n")
-    selec = int(input())
-    if selec == 1:
-        tmp.printVuelo()
-        nxy = int(input("¿Desea continuar?\n1. Sí\n"))
+        print("Seleccione su vuelo")
+        aeropuerto.printDestinos() 
+        selec = int(input())
+        selec -= 1
+        tmp = aeropuerto.obtenerVuelo(selec)
+        pasajero.asignarVuelo(tmp)
+        print("El vuelo ha sido reservado, ¿desea consultarlo?\n1. Sí\n2. No\n")
+        selec = int(input())
+        if selec == 1:
+            tmp.printVuelo()
+            nxy = int(input("¿Desea continuar?\n1. Sí\n"))
 
 def printLinea():
     print("===========================================================================================\n")

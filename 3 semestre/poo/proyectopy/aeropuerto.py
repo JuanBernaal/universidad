@@ -36,3 +36,6 @@ class Aeropuerto:
 
     def obtenerVuelo(self, pos):
         return self.vuelos[pos]
+
+    def empty(self):
+        return not self.vuelos
