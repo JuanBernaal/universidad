@@ -3,15 +3,15 @@ from torreControl import TorreControl
 class Aeropuerto:
     instancia = None
 
-    def __init__(self):
-        self.vuelos = []
-        self.torreControl = TorreControl()  # Crear una instancia de TorreControl
-
     @classmethod
     def obtenerInstancia(cls):
         if not cls.instancia:
             cls.instancia = cls()
         return cls.instancia
+
+    def __init__(self):
+        self.vuelos = []
+        self.torreControl = TorreControl()  # Crear una instancia de TorreControl
 
     def agregarDestino(self, vuelo):
         self.vuelos.append(vuelo)
@@ -28,11 +28,11 @@ class Aeropuerto:
         return bool(self.vuelos)
 
     def disponibilidadAeronaves(self):
-        return self.torreControl.disponibilidadNaves()  # Utiliza la instancia de TorreControl
+        return self.torreControl.disponibilidadNaves()
 
     def asignarVuelo(self):
         for vuelo in self.vuelos:
-            self.torreControl.seleccionarAeronave(vuelo)  # Utiliza la instancia de TorreControl
+            self.torreControl.seleccionarAeronave(vuelo)
 
     def obtenerVuelo(self, pos):
         return self.vuelos[pos]
