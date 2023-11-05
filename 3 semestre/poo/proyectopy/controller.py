@@ -15,4 +15,8 @@ class Controller:
             self.aeropuerto.agregarDestino(flight)       
 
         if option == 3:
-            self.view.createAircraft(self.aeropuerto)
+            choice = self.view.createAircraft(self.aeropuerto)
+            if choice == 1:
+                self.view.createAirplane()
+
+                
