@@ -20,3 +20,13 @@ data = [
 st.table(data)
 
 st.warning("Unable to fetch image. Skipping...", icon="⚠️")
+
+st.number_input("Ingrese un numero", min_value=1)
+
+fecha = st.date_input("Fecha del vuelo")
+
+st.write(fecha)
+
+hora = st.time_input("Hora del vuelo")
+
+st.write(hora)

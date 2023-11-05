@@ -1,6 +1,5 @@
 from torreControl import TorreControl
 
-
 class Aeropuerto:
     instancia = None
 
@@ -29,15 +28,11 @@ class Aeropuerto:
         return bool(self.vuelos)
 
     def disponibilidadAeronaves(self):
-        return (
-            self.torreControl.disponibilidadNaves()
-        )  # Utiliza la instancia de TorreControl
+        return (self.torreControl.disponibilidadNaves())  # Utiliza la instancia de TorreControl
 
     def asignarVuelo(self):
         for vuelo in self.vuelos:
-            self.torreControl.seleccionarAeronave(
-                vuelo
-            )  # Utiliza la instancia de TorreControl
+            self.torreControl.seleccionarAeronave(vuelo)  # Utiliza la instancia de TorreControl
 
     def obtenerVuelo(self, pos):
         return self.vuelos[pos]

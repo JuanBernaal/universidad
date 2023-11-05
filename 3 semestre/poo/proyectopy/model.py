@@ -1,3 +1,10 @@
+from random import randint
+import time
+import os
+from random import randint
+import time
+import streamlit as st
+
 class Aeronave:
     def __init__(self, m, c, mediator):
         self.mediador = mediator
@@ -104,7 +111,94 @@ class Aeronave:
 
     def getEstado(self):
         return self.estado
-    
+
+class PuertaEmbarque:
+    def __init__(self, nombre):
+        self.identificacion = nombre
+        self.disponibilidad = True
+
+    def anunciarEmbarque(self, puerta):
+        print(f"Anuncio de embarque en {self.identificacion} - Puerta {puerta}")
+
+class TorreControl:
+    def __init__(self):
+        self.puertas = [PuertaEmbarque(1), PuertaEmbarque(2), PuertaEmbarque(3), PuertaEmbarque(4), PuertaEmbarque(5), PuertaEmbarque(6)]
+        self.aeronaves = []
+
+    def registrarAeronave(self, aeronave):
+        self.aeronaves.append(aeronave)
+
+    def registrarAvion(self, aeronave):
+        self.aviones.append(aeronave)
+
+    def enviarMensaje(self, mensaje, emisor):
+        for aeronave in self.aeronaves:
+            if aeronave != emisor:
+                aeronave.recibirMensaje(mensaje)
+
+    def asignarPuertaDeEmbarque(self, aeronave, puerta, cod, hora):
+        aeronave.asignarPuertaDeEmbarque(puerta, cod, hora)
+        self.puertas[puerta - 1].disponibilidad = False
+
+    def disponibilidadNaves(self):
+        return len(self.aeronaves) > 0
+
+    def mostrarAviones(self):
+        if not self.aeronaves:
+            print("No hay aeronaves")
+        for i, aeronave in enumerate(self.aeronaves, 1):
+            print(f"{i}.")
+            aeronave.printInfo()
+
+    def seleccionarAeronave(self, vuelo):
+        for aeronave in self.aeronaves:
+            if aeronave.estado:
+                aeronave.agregarVuelo(vuelo)
+                flag = True
+                for i, puerta in enumerate(self.puertas):
+                    if puerta.disponibilidad:
+                        self.asignarPuertaDeEmbarque(aeronave, puerta.identificacion, vuelo.identificacion, vuelo.hora)
+                        flag = False
+                        break
+                break
+
+    def generarNumeroAleatorio(self):
+        num1 = randint(10000, 99999)
+        num2 = randint(10000, 99999)
+        if num1 > num2:
+            num1, num2 = num2, num1  # Intercambiar valores si num1 > num2
+        numeroAleatorio = randint(num1, num2)
+        return numeroAleatorio
+
+
+    def simulacion(self):
+        for aeronave in self.aeronaves:
+            if aeronave.tieneVuelos():
+                for vuelo in aeronave.vuelos:
+                    aeronave.despegar()
+                    pos1 = self.generarNumeroAleatorio()
+                    pos2 = self.generarNumeroAleatorio()
+                    posicion = f"Lat: {pos1} Lon: {pos2}"
+                    aeronave.actualizarPosicion(posicion)
+                    aeronave.aterrizar()
+                for vuelo in aeronave.vuelos:
+                    aeronave.eliminarVuelo()
+
+        for puerta in self.puertas:
+            puerta.disponibilidad = True
+
+    def mostrarPuertas(self):
+        for puerta in self.puertas:
+            print(f"Puerta #{puerta.identificacion}", "disponible" if puerta.disponibilidad else "no disponible", "\n")
+
+    def generarHoraActual(self):
+        return time.strftime("%H:%M:%S")
+
+class Vuelos:
+    def __init__(self, identificacion, hora):
+        self.identificacion = identificacion
+        self.hora = hora
+
 class Aeropuerto:
     instancia = None
 
@@ -133,7 +227,7 @@ class Aeropuerto:
         return bool(self.vuelos)
 
     def disponibilidadAeronaves(self):
-        return self.torreControl.disponibilidadNaves()  # Utiliza la instancia de TorreControl
+        return (self.torreControl.disponibilidadNaves())  # Utiliza la instancia de TorreControl
 
     def asignarVuelo(self):
         for vuelo in self.vuelos:
@@ -144,7 +238,114 @@ class Aeropuerto:
 
     def empty(self):
         return not self.vuelos
-    
+
+class Aeronave:
+    def __init__(self, m, c, mediator):
+        self.mediador = mediator
+        self.mediador.registrarAeronave(self)
+        self.marca = m
+        self.modelo = "2019"
+        self.capacidad = c
+        self.vuelos = []
+        self.estado = True
+        self.sillasDispo = 0
+        self.puertaDeEmbarque = None
+
+    def enviarMensaje(self, mensaje):
+        self.mediador.enviarMensaje(mensaje, self)
+
+    def tieneVuelos(self):
+        return len(self.vuelos) > 0
+
+    def eliminarVuelo(self):
+        if self.vuelos:
+            self.vuelos.pop()
+
+    def despegar(self):
+        print(f"{self.marca}: Despegando.")
+        self.enviarMensaje(f"Despegando {self.marca}")
+
+    def aterrizar(self):
+        print(f"{self.marca}: Aterrizando.")
+        self.enviarMensaje(f"Aterrizando {self.marca}")
+
+    def actualizarPosicion(self, mensaje):
+        print(f"{self.marca}: Actualizando posicion a {mensaje}")
+        self.enviarMensaje(f"Nueva posicion: {self.marca} {mensaje}")
+
+    def recibirMensaje(self, mensaje):
+        print(f"{self.marca} recibio mensaje: {mensaje}")
+
+    def asignarPuertaDeEmbarque(self, puerta, cod, hora):
+        print(f"{self.marca} se dirige a la puerta de embarque: {puerta} Para el vuelo #{cod} Hora: {hora}")
+
+    def agregarVuelo(self, vuelo):
+        flag = self.estado
+
+        for v in self.vuelos:
+            if vuelo.identificacion == v.identificacion:
+                flag = False
+
+        if len(self.vuelos) < 3 and flag:
+            self.vuelos.append(vuelo)
+        else:
+            self.estado = False
+
+        if len(self.vuelos) == 3:
+            self.estado = False
+
+    def printInfo(self):
+        print(f"Marca: {self.marca}")
+        print(f"Capacidad: {self.capacidad}")
+
+    def getCapacidad(self):
+        return self.capacidad
+
+    def setModelo(self, s):
+        self.modelo = s
+
+    def setNombre(self, s):
+        self.nombre = s
+
+    def setAutonomia(self, i):
+        self.autonomia = i
+
+    def setFabricacion(self, i):
+        self.fabricacion = i
+
+    def setVelMax(self, i):
+        self.velMax = i
+
+    def setSillasDispo(self, i):
+        self.sillasDispo = i
+
+    def setEstado(self, b):
+        self.estado = b
+
+    def getMarca(self):
+        return self.marca
+
+    def getModelo(self):
+        return self.modelo
+
+    def getNombre(self):
+        return self.nombre
+
+    def getAutonomia(self):
+        return self.autonomia
+
+    def getFabricacion(self):
+        return self.fabricacion
+
+    def getVelMax(self):
+        return self.velMax
+
+    def getSillasDispo(self):
+        return self.sillasDispo
+
+    def getEstado(self):
+        return self.estado
+
 class Avion(Aeronave):
     def __init__(self, marca, capacidad, mediator):
         super().__init__(marca, capacidad, mediator)
@@ -290,3 +491,136 @@ class Pasajero(Persona):
         print("Nacionalidad:", self.nacionalidad)
         print("Informacion Medica:", self.infoMedica)
 
+class PuertaEmbarque:
+    def __init__(self, nombre):
+        self.identificacion = nombre
+        self.disponibilidad = True
+
+    def anunciarEmbarque(self, puerta):
+        print(f"Anuncio de embarque en {self.identificacion} - Puerta {puerta}")
+
+class PuertaEmbarque:
+    def __init__(self, nombre):
+        self.identificacion = nombre
+        self.disponibilidad = True
+
+    def anunciarEmbarque(self, puerta):
+        print(f"Anuncio de embarque en {self.identificacion} - Puerta {puerta}")
+
+class TorreControl:
+    def __init__(self):
+        self.puertas = [PuertaEmbarque(1), PuertaEmbarque(2), PuertaEmbarque(3), PuertaEmbarque(4), PuertaEmbarque(5), PuertaEmbarque(6)]
+        self.aeronaves = []
+
+    def registrarAeronave(self, aeronave):
+        self.aeronaves.append(aeronave)
+
+    def registrarAvion(self, aeronave):
+        self.aviones.append(aeronave)
+
+    def enviarMensaje(self, mensaje, emisor):
+        for aeronave in self.aeronaves:
+            if aeronave != emisor:
+                aeronave.recibirMensaje(mensaje)
+
+    def asignarPuertaDeEmbarque(self, aeronave, puerta, cod, hora):
+        aeronave.asignarPuertaDeEmbarque(puerta, cod, hora)
+        self.puertas[puerta - 1].disponibilidad = False
+
+    def disponibilidadNaves(self):
+        return len(self.aeronaves) > 0
+
+    def mostrarAviones(self):
+        if not self.aeronaves:
+            print("No hay aeronaves")
+        for i, aeronave in enumerate(self.aeronaves, 1):
+            print(f"{i}.")
+            aeronave.printInfo()
+
+    def seleccionarAeronave(self, vuelo):
+        for aeronave in self.aeronaves:
+            if aeronave.estado:
+                aeronave.agregarVuelo(vuelo)
+                flag = True
+                for i, puerta in enumerate(self.puertas):
+                    if puerta.disponibilidad:
+                        self.asignarPuertaDeEmbarque(aeronave, puerta.identificacion, vuelo.identificacion, vuelo.hora)
+                        flag = False
+                        break
+                break
+
+    def generarNumeroAleatorio(self):
+        num1 = randint(10000, 99999)
+        num2 = randint(10000, 99999)
+        if num1 > num2:
+            num1, num2 = num2, num1  # Intercambiar valores si num1 > num2
+        numeroAleatorio = randint(num1, num2)
+        return numeroAleatorio
+
+
+    def simulacion(self):
+        for aeronave in self.aeronaves:
+            if aeronave.tieneVuelos():
+                for vuelo in aeronave.vuelos:
+                    aeronave.despegar()
+                    pos1 = self.generarNumeroAleatorio()
+                    pos2 = self.generarNumeroAleatorio()
+                    posicion = f"Lat: {pos1} Lon: {pos2}"
+                    aeronave.actualizarPosicion(posicion)
+                    aeronave.aterrizar()
+                for vuelo in aeronave.vuelos:
+                    aeronave.eliminarVuelo()
+
+        for puerta in self.puertas:
+            puerta.disponibilidad = True
+
+    def mostrarPuertas(self):
+        for puerta in self.puertas:
+            print(f"Puerta #{puerta.identificacion}", "disponible" if puerta.disponibilidad else "no disponible", "\n")
+
+    def generarHoraActual(self):
+        return time.strftime("%H:%M:%S")
+
+class Vuelos:
+    def __init__(self, identificacion, hora):
+        self.identificacion = identificacion
+        self.hora = hora
+
+class Tripulante(Persona):
+    def __init__(self, nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo, cargo, xp, hrsDiarias):
+        super().__init__(nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo)
+        self.cargo = cargo
+        self.xp = xp
+        self.hrsDiarias = hrsDiarias
+
+    def getInformacion(self):
+        super().getInformacion()
+        print(f"Cargo en el avión: {self.cargo}")
+        print(f"Años de experiencia: {self.xp}")
+        print(f"Horas diarias: {self.hrsDiarias}")
+
+class Vuelos:
+    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
+        self.identificacion = id
+        self.fecha = fecha
+        self.ciudadOrigen = "CLO"
+        self.ciudadDestino = ciudadDestino
+        self.hora = hora
+        self.capacidad = capacidad
+        self.numPasajeros = 0
+        self.estado = True
+
+    def agregarPasajero(self):
+        if self.numPasajeros < self.capacidad:
+            self.numPasajeros += 1
+        else:
+            print("Vuelo lleno")
+
+    def printVuelo(self):
+        print(f"Fecha: {self.fecha}")
+        print(f"Hora: {self.hora}")
+        print(f"Ciudad de origen: {self.ciudadOrigen}")
+        print(f"Ciudad de destino: {self.ciudadDestino}")
+
+    def disponible(self):
+        return self.estado
