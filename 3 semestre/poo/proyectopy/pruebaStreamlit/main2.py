@@ -2,10 +2,11 @@ from aeropuerto import Aeropuerto
 from aeronave import Aeronave
 from avion import Avion
 from jet import JetPrivado
-from helicoptero import Helicoptero 
+from helicoptero import Helicoptero
 from pasajero import Pasajero
 from torreControl import TorreControl
 from vuelos import Vuelos
+
 
 def agregarNaves(aeropuerto):
     while True:
@@ -45,13 +46,14 @@ def agregarNaves(aeropuerto):
         aeropuerto.torreControl.mostrarAviones()
         printLinea()
 
+
 def reserva(aeropuerto):
     if aeropuerto.empty():
         print("No hay vuelos")
-    else: 
+    else:
         pasajero = Pasajero()
         pasajero.obtenerDatosPasajero()
-        printLinea() 
+        printLinea()
         flag = True
         while flag:
             pasajero.getInformacion()
@@ -62,7 +64,7 @@ def reserva(aeropuerto):
                 flag = False
 
         print("Seleccione su vuelo")
-        aeropuerto.printDestinos() 
+        aeropuerto.printDestinos()
         selec = int(input())
         selec -= 1
         tmp = aeropuerto.obtenerVuelo(selec)
@@ -73,17 +75,23 @@ def reserva(aeropuerto):
             tmp.printVuelo()
             nxy = int(input("¿Desea continuar?\n1. Sí\n"))
 
+
 def printLinea():
-    print("===========================================================================================\n")
+    print(
+        "===========================================================================================\n"
+    )
+
 
 def main():
     aeropuerto = Aeropuerto.obtenerInstancia()
     flag = True
     printLinea()
-    npas = ''
+    npas = ""
 
     while flag:
-        print("Bienvenido\n1. Modificar vuelos\n2. Agregar naves\n3. Simular\n4. Reservar vuelo\n5. Consultar información\n6. Salir")
+        print(
+            "Bienvenido\n1. Modificar vuelos\n2. Agregar naves\n3. Simular\n4. Reservar vuelo\n5. Consultar información\n6. Salir"
+        )
         cases = int(input())
         print()
         flag2 = True
@@ -123,7 +131,9 @@ def main():
         elif cases == 5:
             printLinea()
             while flag2:
-                print("1. Consultar Vuelos\n2. Consultar Puertas\n3. Consultar Aeronaves\n4. Salir")
+                print(
+                    "1. Consultar Vuelos\n2. Consultar Puertas\n3. Consultar Aeronaves\n4. Salir"
+                )
                 num = int(input())
                 if num == 1:
                     aeropuerto.printDestinos()
@@ -139,5 +149,6 @@ def main():
             flag = False
 
     return 0
+
 
 main()
