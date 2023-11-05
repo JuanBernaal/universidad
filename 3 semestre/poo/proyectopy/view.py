@@ -3,18 +3,20 @@ import os
 from vuelos import Vuelos
 
 class View:
-        
-    st.title("Alfonso Bonilla Aragan")
-    st.write("")
 
     def mainMenu(self):
-        ans = 0
+        ans = 1
         
-        option = st.sidebar.selectbox("Selecciona una opcion", ["Menu principal", "Crear vuelos", "Crear aeronave", "Reservar vuelo", "Consultar informacion", "Simular"])
-        if option == "Menu principal":
-            ans = 1
+        option = st.sidebar.selectbox("Selecciona una opcion", ["Inicio", "Crear vuelos", "Crear aeronave", "Reservar vuelo", "Consultar informacion", "Simular"])
+        if option == "Inicio":
+            st.title("Alfonso Bonilla Aragan")
+            st.subheader("Cualquier cosa")
+            ##Mas descripcion
+
         if option == "Crear vuelos":
             ans = 2
+            st.title("Creacion de vuelos")
+            
         elif option == "Crear aeronave":
             ans = 3
         elif option == "Reservar vuelo":
@@ -27,12 +29,18 @@ class View:
         return ans
     
     def createFlight(self):
-        st.info("Crea un vuelo ✈️")
-        id = st.number_input("Ingrese la identificacion del vuelo", min_value=1)
-        destination = st.text_input("Ingrese la ciudad de destino")
-        date = st.date_input("Fecha del vuelo (MM/DD/YYYY)")
-        st.info("Format MM/DD/YYYY")
-        time = st.time_input("Hora del vuelo")
-        st.info("Format HH:MM")
-        flight = Vuelos(id, date, destination, time)
-        return flight
+        id = st.number_input("Ingrese la identificacion del vuelo", step=1, value=None)
+        destination = st.text_input("Ingrese la ciudad de destino", value=None)
+        date = st.date_input("Fecha del vuelo", format="YYYY/MM/DD", value=None)
+        st.write(date)
+        time = st.time_input("Hora del vuelo", step=1800, value=None)
+        st.write(time)
+        if st.button("Guardar vuelo"):
+            flight = Vuelos(id, date, destination, time)
+            return flight
+        
+    def createAircraft(self, aeropuerto):
+        self.aeropuerto = aeropuerto
+        st.title("Creacion de aeronaves")
+        choice = st.selectbox("Seleccione un tipo de aeronave", ["None", "Avion", "Jet Privado", "Helicoptero"])
+        back = st.button("Volver")

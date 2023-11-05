@@ -1,5 +1,5 @@
 class Vuelos:
-    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
+    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=100):
         self.identificacion = id
         self.fecha = fecha
         self.ciudadOrigen = "CLO"
