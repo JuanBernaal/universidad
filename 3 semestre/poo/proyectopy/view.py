@@ -11,7 +11,6 @@ class View:
         option = st.sidebar.selectbox("Selecciona una opcion", ["Inicio", "Crear vuelos", "Crear aeronave", "Reservar vuelo", "Consultar informacion", "Simular"])
         if option == "Inicio":
             st.title("Alfonso Bonilla Aragan")
-            st.subheader("Cualquier cosa")
             ##Mas descripcion
 
         if option == "Crear vuelos":
@@ -48,18 +47,21 @@ class View:
         if choice == "Avion":
             ans = 1
 
+        elif choice == "Jet Privado":
+            ans = 2
+
         return ans
 
-    def createAirplane(self):
+    def createAirplane(self, aeropuerto):
 
-        brand = st.selectbox("Marca del avion", ["Boeing", "Airbus", "Sukhoi Superjet 100"])
+        brand = st.selectbox("Marca del avion", ["Boeing", "Airbus"])
 
         if brand == "Boeing":
-            st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Boeing_full_logo.svg/1200px-Boeing_full_logo.svg.png", caption="Boeing, United States")
+            st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Boeing_full_logo.svg/1200px-Boeing_full_logo.svg.png", caption="Seattle, United States")
             select = st.selectbox("Linea", ["737", "747", "777", "787"])
 
             if select == "737":
-                st.image("https://media.cnn.com/api/v1/images/stellar/prod/201221165638-boeing-737-crisis-boeing-debuts-first-737-max-boeing.jpg?q=w_1600,h_900,x_0,y_0,c_fill/h_618", caption= "Boeing 737 max")
+                st.image("https://i.blogs.es/30c172/7372/1366_521.jpg", caption= "Boeing 737 max")
                 capacity = st.number_input("Capacidad del avion", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
@@ -76,6 +78,30 @@ class View:
             elif select == "787":
                 st.image("https://easbcn.com/wp-content/uploads/2020/07/256409_1-1000x423.jpg", caption="Boeing 787 dreamliner")
                 capacity = st.number_input("Capacidad del avion", step=1, value=250)
+                st.info("La capacidad recomendada esta relacionada con la linea del avion")
+
+        elif brand == "Airbus":
+            st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Airbus_Group_Logo_2014.svg/2560px-Airbus_Group_Logo_2014.svg.png", caption="Blagnac, France")
+            select = st.selectbox("Linea", ["A320", "A330", "A350", "A380"])
+
+            if select == "A320":
+                st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a320-large_tcm36-3644.jpg", caption= "Airbus A320")
+                capacity = st.number_input("Capacidad del avion", step=1, value=180)
+                st.info("La capacidad recomendada esta relacionada con la linea del avion")
+
+            elif select == "A330":
+                st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a330-200-large_tcm36-3653.jpg", caption="Airbus A330-200")
+                capacity = st.number_input("Capacidad del avion", step=1, value=268)
+                st.info("La capacidad recomendada esta relacionada con la linea del avion")
+
+            elif select == "A350":
+                st.image("https://aeroaffaires.es/wp-content/uploads/2021/07/1200px-a350_first_flight_-_low_pass_03-800x430-c-center.jpg", caption="Airbus A350")
+                capacity = st.number_input("Capacidad del avion", step=1, value=410)
+                st.info("La capacidad recomendada esta relacionada con la linea del avion")
+
+            elif select == "A380":
+                st.image("https://images.theconversation.com/files/259828/original/file-20190219-43267-sw50kg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1356&h=668&fit=crop", caption="Airbus A380")
+                capacity = st.number_input("Capacidad del avion", step=1, value=853)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
         engineCount = 2
@@ -97,7 +123,6 @@ class View:
             if st.button("Cerrar"):
                 advance = False
 
-       
         if st.button("Crear avion", type="primary"):
-            airplane = Avion(brand, capacity, self.aeropuerto.torreControl, engineCount, category, weightElevation)
+            airplane = Avion(brand, capacity, aeropuerto.torreControl, engineCount, category, weightElevation)
             return airplane

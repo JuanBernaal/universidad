@@ -16,7 +16,10 @@ class Controller:
 
         if option == 3:
             choice = self.view.createAircraft(self.aeropuerto)
+
             if choice == 1:
-                self.view.createAirplane()
+                self.view.createAirplane(self.aeropuerto)
+
+            
 
                 
