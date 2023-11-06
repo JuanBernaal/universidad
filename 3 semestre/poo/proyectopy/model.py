@@ -407,21 +407,15 @@ class Helicoptero(Aeronave):
             print("Error:", e)
 
 class JetPrivado(Aeronave):
-    def __init__(self, marca, capacidad, mediator):
+    def __init__(self, marca, capacidad, mediator, propietario):
         super().__init__(marca, capacidad, mediator)
-        self.propietario = ""
+        self.propietario = propietario
 
     def getPropietario(self):
         return self.propietario
 
     def printInfo(self):
         super().printInfo()
-
-    def obtenerDatos(self):
-        try:
-            self.propietario = input("Ingrese el nombre del propietario: ")
-        except Exception as e:
-            print("Error:", e)
 
 class Persona:
     def __init__(self, nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo):
