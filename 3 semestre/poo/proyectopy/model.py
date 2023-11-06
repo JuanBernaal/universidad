@@ -374,11 +374,11 @@ class Avion(Aeronave):
             print("Error: Entrada no valida. Debe ingresar un numero entero.")
 
 class Helicoptero(Aeronave):
-    def __init__(self, marca, capacidad, mediator):
+    def __init__(self, marca, capacidad, mediator, numRotores=4, maxElevacion=1000, uso="Servicio de rescate"):
         super().__init__(marca, capacidad, mediator)
-        self.numRotores = 0
-        self.maxElevacion = 0
-        self.uso = ""
+        self.numRotores = numRotores
+        self.maxElevacion = maxElevacion
+        self.uso = uso
 
     def getNumRotores(self):
         return self.numRotores

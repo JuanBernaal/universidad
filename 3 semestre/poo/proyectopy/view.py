@@ -1,8 +1,8 @@
 import streamlit as st
-import os
 from model import Vuelos
 from model import Avion
 from model import JetPrivado
+from model import Helicoptero
 
 class View:
 
@@ -62,51 +62,56 @@ class View:
 
         if brand == "Boeing":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Boeing_full_logo.svg/1200px-Boeing_full_logo.svg.png", caption="Seattle, United States")
-            select = st.selectbox("Linea", ["737", "747", "777", "787"])
+            select = st.selectbox("Linea", ["Boeing 737", "Boeing 747", "Boeing 777", "Boeing 787"])
 
-            if select == "737":
+            if select == "Boeing 737":
                 st.image("https://i.blogs.es/30c172/7372/1366_521.jpg", caption= "Boeing 737 max")
                 capacity = st.number_input("Capacidad del avion", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "747":
+            elif select == "Boeing 747":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/boeing-747-400-large_tcm36-3689.jpg", caption="Boeing 747-400")
                 capacity = st.number_input("Capacidad del avion", step=1, value=550)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "777":
+            elif select == "Boeing 777":
                 st.image("https://i0.wp.com/www.transponder1200.com/wp-content/uploads/2023/04/BOEING-777-ROLLOUT.jpg?fit=1050%2C600&ssl=1", caption="Boeing 777 premium comfort")
                 capacity = st.number_input("Capacidad del avion", step=1, value=288)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "787":
+            elif select == "Boeing 787":
                 st.image("https://easbcn.com/wp-content/uploads/2020/07/256409_1-1000x423.jpg", caption="Boeing 787 dreamliner")
                 capacity = st.number_input("Capacidad del avion", step=1, value=250)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
         elif brand == "Airbus":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Airbus_Group_Logo_2014.svg/2560px-Airbus_Group_Logo_2014.svg.png", caption="Blagnac, France")
-            select = st.selectbox("Linea", ["A320", "A330", "A350", "A380"])
+            select = st.selectbox("Linea", ["Airbus A320", "Airbus A330", "Airbus A350", "Airbus A380", "Beluga Airbus"])
 
-            if select == "A320":
+            if select == "Airbus A320":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a320-large_tcm36-3644.jpg", caption= "Airbus A320")
                 capacity = st.number_input("Capacidad del avion", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "A330":
+            elif select == "Airbus A330":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a330-200-large_tcm36-3653.jpg", caption="Airbus A330-200")
                 capacity = st.number_input("Capacidad del avion", step=1, value=268)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "A350":
+            elif select == "Airbus A350":
                 st.image("https://aeroaffaires.es/wp-content/uploads/2021/07/1200px-a350_first_flight_-_low_pass_03-800x430-c-center.jpg", caption="Airbus A350")
                 capacity = st.number_input("Capacidad del avion", step=1, value=410)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
-            elif select == "A380":
+            elif select == "Airbus A380":
                 st.image("https://images.theconversation.com/files/259828/original/file-20190219-43267-sw50kg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1356&h=668&fit=crop", caption="Airbus A380")
                 capacity = st.number_input("Capacidad del avion", step=1, value=853)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+
+            elif select == "Beluga Airbus":
+                st.image("https://upload.wikimedia.org/wikipedia/commons/7/72/%22Beluga_XL%22_A330-743L_%28cropped%29.jpg", caption="Beluga Airbus")
+                capacity = st.number_input("Capacidad del avion", step=1)
+                st.info("Este es un avion de carga, por lo tanto se recomienda que la capacidad sea la cantidad de miembros para la tripulacion")
 
         engineCount = 2
         category = "Comercial"
@@ -189,3 +194,24 @@ class View:
                 st.image("https://d21buns5ku92am.cloudfront.net/67992/images/365357-ESGBell_429Rendering-d5a7cc-large-1600878707.jpg", caption="Bell 429", width=700)
         
         capacityHelicopter = st.number_input("Capacidad del Helicoptero", step=1)
+        numRotores = 4
+        elevation = 1000
+        use = "Servicio de rescate"
+        advance = st.button("Configuracion avanzada")
+
+        if advance:
+            with st.form("Helicopter Advanced Settings"):
+                newNumRotores = st.number_input("Numero de rotores", step=1, value=4)
+                newElevation = st.number_input("Altitud maxima", step=1, value=1000)
+                newUse = st.text_input("Uso", value="Servicio de rescate")
+                st.info("Los valores que se muestran son parametros predeterminados y pueden ser modificados")
+                if st.form_submit_button("Guardar", type="primary"):
+                    numRotores = newNumRotores
+                    elevation = newElevation
+                    use = newUse
+                
+            if st.button("Cerrar"):
+                advance = False
+        if st.button("Crear helicoptero", type="primary"):
+            helicoptero = Helicoptero(brand, capacityHelicopter, aeropuerto.torreControl, numRotores, elevation, use)
+            return helicoptero
