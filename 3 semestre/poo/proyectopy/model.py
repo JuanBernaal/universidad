@@ -195,10 +195,27 @@ class TorreControl:
         return time.strftime("%H:%M:%S")
 
 class Vuelos:
-    def __init__(self, identificacion, hora):
-        self.identificacion = identificacion
+    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
+        self.identificacion = id
+        self.fecha = fecha
+        self.ciudadOrigen = "CLO"
+        self.ciudadDestino = ciudadDestino
         self.hora = hora
+        self.capacidad = capacidad
+        self.numPasajeros = 0
+        self.estado = True
 
+    def agregarPasajero(self):
+        if self.numPasajeros < self.capacidad:
+            self.numPasajeros += 1
+        else:
+            print("Vuelo lleno")
+
+    def printVuelo(self):
+        return {"ID" : self.identificacion, "Fecha" : self.fecha, "Hora" : self.hora, "Ciudad de origen" : self.ciudadOrigen, "Ciudad de destino" : self.ciudadDestino}
+
+    def disponible(self):
+        return self.estado
 class Aeropuerto:
     instancia = None
 
@@ -219,9 +236,8 @@ class Aeropuerto:
         if not self.vuelos:
             print("No hay vuelos")
         else:
-            for i, vuelo in enumerate(self.vuelos, 1):
-                print(f"{i}.")
-                vuelo.printVuelo()
+            for vuelo in self.vuelos:
+                st.table(vuelo.printVuelo())
 
     def disponibilidadVuelos(self):
         return bool(self.vuelos)
@@ -575,11 +591,6 @@ class TorreControl:
     def generarHoraActual(self):
         return time.strftime("%H:%M:%S")
 
-class Vuelos:
-    def __init__(self, identificacion, hora):
-        self.identificacion = identificacion
-        self.hora = hora
-
 class Tripulante(Persona):
     def __init__(self, nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo, cargo, xp, hrsDiarias):
         super().__init__(nombre, apellido, edad, cedula, fechaNacimiento, genero, direccion, numTel, correo)
@@ -592,29 +603,3 @@ class Tripulante(Persona):
         print(f"Cargo en el avión: {self.cargo}")
         print(f"Años de experiencia: {self.xp}")
         print(f"Horas diarias: {self.hrsDiarias}")
-
-class Vuelos:
-    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
-        self.identificacion = id
-        self.fecha = fecha
-        self.ciudadOrigen = "CLO"
-        self.ciudadDestino = ciudadDestino
-        self.hora = hora
-        self.capacidad = capacidad
-        self.numPasajeros = 0
-        self.estado = True
-
-    def agregarPasajero(self):
-        if self.numPasajeros < self.capacidad:
-            self.numPasajeros += 1
-        else:
-            print("Vuelo lleno")
-
-    def printVuelo(self):
-        print(f"Fecha: {self.fecha}")
-        print(f"Hora: {self.hora}")
-        print(f"Ciudad de origen: {self.ciudadOrigen}")
-        print(f"Ciudad de destino: {self.ciudadDestino}")
-
-    def disponible(self):
-        return self.estado

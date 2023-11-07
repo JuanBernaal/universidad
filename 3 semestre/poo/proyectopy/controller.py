@@ -12,9 +12,10 @@ class Controller:
 
         if option == 2:
             flight = self.view.createFlight()
-            self.aeropuerto.agregarDestino(flight)       
+            if not flight == 0:
+                self.aeropuerto.agregarDestino(flight)       
 
-        if option == 3:
+        elif option == 3:
             choice = self.view.createAircraft(self.aeropuerto)
 
             if choice == 1:
@@ -24,4 +25,12 @@ class Controller:
                 self.view.createJet(self.aeropuerto)
 
             elif choice == 3:
-                self.view.createHelicopter(self.aeropuerto)            
+                self.view.createHelicopter(self.aeropuerto)    
+
+        elif option == 4:
+            self.view.bookFlight(self.aeropuerto)
+
+        elif option == 5:
+            selct = self.view.showInfo()
+            if selct == 1:
+                self.view.showFlights(self.aeropuerto)

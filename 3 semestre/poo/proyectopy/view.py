@@ -30,15 +30,19 @@ class View:
         return ans
     
     def createFlight(self):
-        id = st.number_input("Ingrese la identificacion del vuelo", step=1, value=None)
+        ans = None
+        id = st.number_input("Ingrese la identificacion del vuelo", step=1)
         destination = st.text_input("Ingrese la ciudad de destino", value=None)
         date = st.date_input("Fecha del vuelo", format="YYYY/MM/DD", value=None)
         st.write(date)
         time = st.time_input("Hora del vuelo", step=1800, value=None)
         st.write(time)
-        if st.button("Guardar vuelo"):
+        st.info("Selecciona una hora o escribela")
+        if st.button("Guardar vuelo", type="primary"):
             flight = Vuelos(id, date, destination, time)
-            return flight
+            ans = flight
+        else: ans = 0
+        return ans
         
     def createAircraft(self, aeropuerto):
         self.aeropuerto = aeropuerto
@@ -215,3 +219,21 @@ class View:
         if st.button("Crear helicoptero", type="primary"):
             helicoptero = Helicoptero(brand, capacityHelicopter, aeropuerto.torreControl, numRotores, elevation, use)
             return helicoptero
+            
+    def bookFlight(self, aeropuerto):
+        st.title("Reservar Vuelo")
+        if aeropuerto.empty():
+            st.warning("No hay vuelos creados")
+            
+    def showInfo(self):
+        ans = 1
+        st.write("Sistema de consulta")
+        select = st.selectbox("Seleccione el tipo de consulta", ["Consultar vuelos", "Consultar puertas", "Consultar aeronaves"])
+        if select == "Consultar puertas":
+            ans = 2
+        elif select == "Consultar aeronaves":
+            ans = 3
+        return ans
+
+    def showFlights(self, aeropuerto):
+        st.write(aeropuerto.printDestinos())
