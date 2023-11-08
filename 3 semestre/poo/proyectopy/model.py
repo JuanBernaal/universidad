@@ -198,7 +198,7 @@ class Vuelos:
     def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
         self.identificacion = id
         self.fecha = fecha
-        self.ciudadOrigen = "CLO"
+        self.ciudadOrigen = "CLO 🟡🔵🔴"
         self.ciudadDestino = ciudadDestino
         self.hora = hora
         self.capacidad = capacidad
@@ -234,7 +234,7 @@ class Aeropuerto:
 
     def printDestinos(self):
         if not self.vuelos:
-            print("No hay vuelos")
+            st.warning("No hay vuelos")
         else:
             for vuelo in self.vuelos:
                 st.table(vuelo.printVuelo())

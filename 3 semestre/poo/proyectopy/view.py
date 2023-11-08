@@ -39,8 +39,10 @@ class View:
         st.write(time)
         st.info("Selecciona una hora o escribela")
         if st.button("Guardar vuelo", type="primary"):
-            flight = Vuelos(id, date, destination, time)
-            ans = flight
+            ans = {"id" : id, 
+                   "date" : date, 
+                   "destination" : destination, 
+                   "time" : time}
         else: ans = 0
         return ans
         
