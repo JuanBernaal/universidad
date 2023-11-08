@@ -37,12 +37,9 @@ class View:
         st.write(date)
         time = st.time_input("Hora del vuelo", step=1800, value=None)
         st.write(time)
-        st.info("Selecciona una hora o escribela")
-        if st.button("Guardar vuelo", type="primary"):
-            ans = {"id" : id, 
-                   "date" : date, 
-                   "destination" : destination, 
-                   "time" : time}
+        if st.button("Crear vuelo", type="primary"):
+            ans = {"id" : id, "date" : date, "destination" : destination, "time" : time}
+            st.info("Su vuelo fue creado con exito")
         else: ans = 0
         return ans
         
