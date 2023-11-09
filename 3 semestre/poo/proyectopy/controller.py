@@ -12,13 +12,8 @@ class Controller:
 
         if option == 2:
             dic = self.view.createFlight()
-            if not dic == 0:   
-                id = dic["id"]
-                date = dic["date"]
-                destination = dic["destination"]
-                time = dic["time"]
-                vuelo = Vuelos(id, date, destination, time)
-                self.aeropuerto.agregarDestino(vuelo)
+            if not dic == 0:
+                self.aeropuerto.agregarDestino(dic)
 
         elif option == 3:
             choice = self.view.createAircraft(self.aeropuerto)

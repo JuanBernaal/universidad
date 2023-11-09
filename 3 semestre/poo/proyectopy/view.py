@@ -38,7 +38,7 @@ class View:
         time = st.time_input("Hora del vuelo", step=1800, value=None)
         st.write(time)
         if st.button("Crear vuelo", type="primary"):
-            ans = {"id" : id, "date" : date, "destination" : destination, "time" : time}
+            ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time}
             st.info("Su vuelo fue creado con exito")
         else: ans = 0
         return ans
@@ -223,6 +223,7 @@ class View:
         st.title("Reservar Vuelo")
         if aeropuerto.empty():
             st.warning("No hay vuelos creados")
+        
             
     def showInfo(self):
         ans = 1
@@ -235,4 +236,6 @@ class View:
         return ans
 
     def showFlights(self, aeropuerto):
-        st.write(aeropuerto.printDestinos())
+        if aeropuerto.empty():
+            st.warning("⚠️ No hay vuelos")
+        else: st.table(aeropuerto.vuelos)
