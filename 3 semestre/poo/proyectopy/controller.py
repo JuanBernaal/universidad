@@ -1,6 +1,7 @@
 from view import View
 import streamlit as st
 from model import Vuelos
+from model import Avion
 
 class Controller:
     def __init__(self, view, aeropuerto):
@@ -13,13 +14,21 @@ class Controller:
         if option == 2:
             dic = self.view.createFlight()
             if not dic == 0:
-                self.aeropuerto.agregarDestino(dic)
+                id = dic["ID"]
+                date = dic["Date"]
+                destination = dic["Destination"]
+                time = dic["Time"]
+                vuelo = Vuelos(id, date, destination, time)
+                self.aeropuerto.agregarDestino(vuelo)
+                self.aeropuerto.destinationsTab(dic)
 
         elif option == 3:
-            choice = self.view.createAircraft(self.aeropuerto)
+            choice = self.view.createAircraft()
 
             if choice == 1:
-                self.view.createAirplane(self.aeropuerto)
+                airplane = self.view.createAirplane(self.aeropuerto)
+                if not airplane == 0:
+                    brand = airplane["brand"]
 
             elif choice == 2:
                 self.view.createJet(self.aeropuerto)

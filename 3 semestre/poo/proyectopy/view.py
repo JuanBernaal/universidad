@@ -43,8 +43,7 @@ class View:
         else: ans = 0
         return ans
         
-    def createAircraft(self, aeropuerto):
-        self.aeropuerto = aeropuerto
+    def createAircraft(self):
         st.title("Creacion de aeronaves")
         choice = st.selectbox("Seleccione un tipo de aeronave", ["Avion", "Jet Privado", "Helicoptero"])
 
@@ -60,7 +59,7 @@ class View:
         return ans
 
     def createAirplane(self, aeropuerto):
-
+        ans = None
         brand = st.selectbox("Marca del avion", ["Boeing", "Airbus"])
 
         if brand == "Boeing":
@@ -136,8 +135,10 @@ class View:
                 advance = False
 
         if st.button("Crear avion", type="primary"):
-            airplane = Avion(brand, capacity, aeropuerto.torreControl, engineCount, category, weightElevation)
-            return airplane
+            ans = {"brand" : brand, "capacity" : capacity, "engineCount" : engineCount, "category" : category, "weightElevation" : weightElevation}
+        else: ans = 0
+
+        return ans
         
     def createJet(self, aeropuerto):
         brand = st.selectbox("Marca del Jet", ["Boeing Business Jets", "Airbus Corporate Jets", "Sukhoi Superjet", "Embraer Executive Jets", "Bombardier"])
@@ -238,4 +239,4 @@ class View:
     def showFlights(self, aeropuerto):
         if aeropuerto.empty():
             st.warning("⚠️ No hay vuelos")
-        else: st.table(aeropuerto.vuelos)
+        else: st.table(aeropuerto.destinations)

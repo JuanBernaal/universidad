@@ -89,7 +89,7 @@ class TorreControl:
         return time.strftime("%H:%M:%S")
 
 class Vuelos:
-    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=0):
+    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=100):
         self.identificacion = id
         self.fecha = fecha
         self.ciudadOrigen = "CLO 🟡🔵🔴"
@@ -115,6 +115,7 @@ class Aeropuerto:
 
     def __init__(self):
         self.vuelos = []
+        self.destinations = []
         self.torreControl = TorreControl()  # Crear una instancia de TorreControl
 
     @classmethod
@@ -125,6 +126,9 @@ class Aeropuerto:
 
     def agregarDestino(self, vuelo):
         self.vuelos.append(vuelo)
+
+    def destinationsTab(self, dic):
+        self.destinations.append(dic)
 
     def printDestinos(self):
         if not self.vuelos:
