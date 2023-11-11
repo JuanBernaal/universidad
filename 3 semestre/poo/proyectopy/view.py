@@ -42,7 +42,7 @@ class View:
             ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time}
             st.success("Su vuelo fue creado con exito")
         elif boton and ((id == None) or (destination == None) or (date == None)):
-            st.error("Todos los campos son obligatorios")
+            st.error("⛔Todos los campos son obligatorios")
             ans = 0
         else: 
             ans = 0
@@ -155,9 +155,14 @@ class View:
             if st.button("Cerrar"):
                 advance = False
 
-        if st.button("Crear avion", type="primary"):
+        ap = st.button("Crear avion", type="primary")
+
+        if ap and capacity > 0:
             ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : weightElevation}
             st.success("Avion creado con exito")
+        elif ap and capacity <= 0:
+            st.error("⛔La capacidad debe ser un entero postivo")
+            ans = 0
         else: ans = 0
 
         return ans
@@ -191,11 +196,15 @@ class View:
             st.subheader("Bombardier Challenger 3500")
             st.image("https://aeronauticapy.com/wp-content/uploads/2021/09/Challenger-3500-Exterior-Bronze-Livery.jpeg")
 
-        capacityJet = st.number_input("Capacidad del Jet", step=1)
-        owner = st.text_input("Nombre del propietario del Jet")
-        if st.button("Crear Jet", type="primary"):
+        capacityJet = st.number_input("Capacidad del Jet", step=1, value=None)
+        owner = st.text_input("Nombre del propietario del Jet", value=None)
+        jetButton = st.button("Crear Jet", type="primary")
+        if jetButton and (owner != None) and (capacityJet != None):
             ans = {"Brand" : brand, "Capacity" : capacityJet, "Owner" : owner}
-            st.info("Jet creado con exito")
+            st.success("Jet creado con exito")
+        elif jetButton and ((owner == None) or (capacityJet == None)):
+            st.error("⛔Todos los campos son obligatorios")
+            ans = 0
         else: ans = 0
         return ans
         
@@ -206,12 +215,19 @@ class View:
         if brand == "Airbus Helicopters":
             st.image("https://logovectordl.com/wp-content/uploads/2020/10/airbus-helicopters-logo-vector.png", caption="Blagnac, France")
             select = st.selectbox("Serie", ["Airbus H175M", "Airbus ACH160"])
+            
 
             if select == "Airbus H175M":
                 st.image("https://www.airforce-technology.com/wp-content/uploads/sites/6/2023/07/Featured-Image-H175M-helicopter.jpg", caption="Airbus x Boeing")
+                numRotores = 1
+                elevation = 12242
+                use = "Fuerzas especiales"
 
             else:
                 st.image("https://www.airbus.com/sites/g/files/jlcbta136/files/styles/airbus_608x608/public/2023-03/ACH160%20Exclusive%20-%20Copy.jpg?itok=hnOYYt3h", caption="Airbus ACH160", width=700)
+                numRotores = 1
+                elevation = 12242
+                use = "Servicio de rescate"
         
         elif brand == "Bell":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Bell_Helicopter_Logo.svg/2560px-Bell_Helicopter_Logo.svg.png", caption="New York, United States")
@@ -219,32 +235,35 @@ class View:
 
             if select == "Bell 427":
                 st.image("https://flight-way.com/upload/resize_cache/webp/iblock/f99/709_545_1/f99be5cfc693dab6666665efee185adf.webp", caption="Bell 427")
+                numRotores = 1
+                elevation = 12242
+                use = "Turismo"
 
             else:
                 st.image("https://d21buns5ku92am.cloudfront.net/67992/images/365357-ESGBell_429Rendering-d5a7cc-large-1600878707.jpg", caption="Bell 429", width=700)
+                numRotores = 1
+                elevation = 12242
+                use = "Servicio de rescate"
+
+        capacityHelicopter = st.number_input("Capacidad:", step=1, value=None)
         
-        capacityHelicopter = st.number_input("Capacidad del Helicoptero", step=1)
-        numRotores = 1
-        elevation = 1000
-        use = "Servicio de rescate"
-        advance = st.button("Configuracion avanzada")
+        advance = st.button("Mostrar Configuracion Avanzada")
+
+        helicopterConfig = {"Number of Rotors" : numRotores, "Max Elevation" : elevation, "Use" : use}
 
         if advance:
-            with st.form("Helicopter Advanced Settings"):
-                newNumRotores = st.number_input("Numero de rotores", step=1, value=1)
-                newElevation = st.number_input("Altitud maxima", step=1, value=1000)
-                newUse = st.text_input("Uso", value="Servicio de rescate")
-                st.info("Los valores que se muestran son parametros predeterminados y pueden ser modificados")
-                if st.form_submit_button("Guardar", type="primary"):
-                    numRotores = newNumRotores
-                    elevation = newElevation
-                    use = newUse
+            st.table(helicopterConfig)
                 
-        if st.button("Cerrar"):
-            advance = False
-        if st.button("Crear helicoptero", type="primary"):
+            if st.button("Cerrar"):
+                advance = False
+        hbutton = st.button("Crear helicoptero", type="primary")
+
+        if hbutton and (capacityHelicopter != None):
             ans = {"Brand" : brand, "Capacity" : capacityHelicopter, "Number of Rotors" : numRotores, "Max Height" : elevation, "Use" : use}
-            st.info("Helicoptero creado con exito")
+            st.success("Helicoptero creado con exito")
+        elif hbutton and (capacityHelicopter == None):
+            st.error("⛔Todos los campos son obligatorios") 
+            ans = 0
         else: ans = 0
 
         return ans
