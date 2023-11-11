@@ -31,16 +31,21 @@ class View:
     
     def createFlight(self):
         ans = None
-        id = st.number_input("Ingrese la identificacion del vuelo:", step=1)
+        id = st.number_input("Ingrese la identificacion del vuelo:", step=1, value=None)
         destination = st.text_input("Ingrese la ciudad de destino:", value=None)
         date = st.date_input("Fecha del vuelo:", format="YYYY/MM/DD", value=None)
         st.write(date)
         time = st.time_input("Hora del vuelo:", step=900, value=None)
         st.write(time)
-        if st.button("Crear vuelo", type="primary"):
+        boton = st.button("Crear vuelo", type="primary")
+        if boton and (id != None) and (destination != None) and (date != None):
             ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time}
-            st.info("Su vuelo fue creado con exito")
-        else: ans = 0
+            st.success("Su vuelo fue creado con exito")
+        elif boton and ((id == None) or (destination == None) or (date == None)):
+            st.error("Todos los campos son obligatorios")
+            ans = 0
+        else: 
+            ans = 0
         return ans
         
     def createAircraft(self):
@@ -70,21 +75,33 @@ class View:
                 st.image("https://i.blogs.es/30c172/7372/1366_521.jpg", caption= "Boeing 737 max")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 23000
 
             elif select == "Boeing 747":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/boeing-747-400-large_tcm36-3689.jpg", caption="Boeing 747-400")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=550)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 4
+                category = "Comercial"
+                weightElevation = 140000
 
             elif select == "Boeing 777":
                 st.image("https://i0.wp.com/www.transponder1200.com/wp-content/uploads/2023/04/BOEING-777-ROLLOUT.jpg?fit=1050%2C600&ssl=1", caption="Boeing 777 premium comfort")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=288)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 110000
 
             elif select == "Boeing 787":
                 st.image("https://easbcn.com/wp-content/uploads/2020/07/256409_1-1000x423.jpg", caption="Boeing 787 dreamliner")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=250)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 75000
 
         elif brand == "Airbus":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Airbus_Group_Logo_2014.svg/2560px-Airbus_Group_Logo_2014.svg.png", caption="Blagnac, France")
@@ -94,47 +111,53 @@ class View:
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a320-large_tcm36-3644.jpg", caption= "Airbus A320")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 30000
 
             elif select == "Airbus A330":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a330-200-large_tcm36-3653.jpg", caption="Airbus A330-200")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=268)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 120000
 
             elif select == "Airbus A350":
                 st.image("https://aeroaffaires.es/wp-content/uploads/2021/07/1200px-a350_first_flight_-_low_pass_03-800x430-c-center.jpg", caption="Airbus A350")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=410)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 115000
 
             elif select == "Airbus A380":
                 st.image("https://images.theconversation.com/files/259828/original/file-20190219-43267-sw50kg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1356&h=668&fit=crop", caption="Airbus A380")
                 capacity = st.number_input("Capacidad del avion:", step=1, value=853)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
+                engineCount = 4
+                category = "Comercial"
+                weightElevation = 160000
 
             elif select == "Beluga Airbus":
                 st.image("https://upload.wikimedia.org/wikipedia/commons/7/72/%22Beluga_XL%22_A330-743L_%28cropped%29.jpg", caption="Beluga Airbus")
                 capacity = st.number_input("Capacidad del avion:", step=1)
                 st.info("Este es un avion de carga, por lo tanto se recomienda que la capacidad sea la cantidad de miembros para la tripulacion")
+                engineCount = 2
+                category = "Comercial"
+                weightElevation = 1000000
 
-        engineCount = 2
-        category = "Comercial"
-        weightElevation = 100
-        advance = st.button("Configuracion avanzada")
-
+        advance = st.button("Mostrar especificaciones")
+        conguration = {"Cantidad de motores" : engineCount, "Categoria del avion" : category, "Weight Elevation" : weightElevation}
         if advance:
-            with st.form("Airplane advance configuration"):
-                newEngineCount = st.number_input("Cantidad de motores:", step=1)
-                newCategory = st.text_input("Categoria del avion")
-                newWeightElevation = st.number_input("Peso que puede levantar el avion (kg):", step=1)
-                if st.form_submit_button("Guardar", type="primary"):
-                    engineCount = newEngineCount
-                    category = newCategory
-                    advance = newWeightElevation
+            st.table(conguration)
 
             if st.button("Cerrar"):
                 advance = False
 
         if st.button("Crear avion", type="primary"):
             ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : weightElevation}
+            st.success("Avion creado con exito")
         else: ans = 0
 
         return ans
@@ -172,6 +195,7 @@ class View:
         owner = st.text_input("Nombre del propietario del Jet")
         if st.button("Crear Jet", type="primary"):
             ans = {"Brand" : brand, "Capacity" : capacityJet, "Owner" : owner}
+            st.info("Jet creado con exito")
         else: ans = 0
         return ans
         
@@ -216,10 +240,11 @@ class View:
                     elevation = newElevation
                     use = newUse
                 
-            if st.button("Cerrar"):
-                advance = False
+        if st.button("Cerrar"):
+            advance = False
         if st.button("Crear helicoptero", type="primary"):
             ans = {"Brand" : brand, "Capacity" : capacityHelicopter, "Number of Rotors" : numRotores, "Max Height" : elevation, "Use" : use}
+            st.info("Helicoptero creado con exito")
         else: ans = 0
 
         return ans
@@ -269,7 +294,7 @@ class View:
     def passengerData(self):
         nombre = st.text_input("Ingrese el nombre del pasajero: ")
         apellido = st.text_input("Ingrese el apellido del pasajero: ")
-        edad = st.number_input("Ingrese la edad del pasajero: ", step=1)
+        edad = st.number_input("Ingrese la edad del pasajero: ", step=1, value=None)
         cedula = st.text_input("Ingrese la cedula del pasajero: ")
         fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ")
         genero = st.text_input("Ingrese el genero del pasajero: ")
@@ -278,7 +303,7 @@ class View:
         correo = st.text_input("Ingrese el correo del pasajero: ")
         nacionalidad = st.text_input("Ingrese la nacionalidad del pasajero: ")
         infoMedica = st.text_input("Ingrese la informacion medica del pasajero: ")
-        numMaletasBodega = st.number_input("Ingrese el numero de maletas de bodega del pasajero: ", step=1)
+        numMaletasBodega = st.number_input("Ingrese el numero de maletas de bodega del pasajero: ", step=1, value=None)
         return {"Name" : nombre, "Last Name" : apellido, "Age" : edad, "id" : cedula, "Birth Day" : fechaNacimiento,
                 "Gender" : genero, "Adress" : direccion, "Phone Number" : numTel, "Email" : correo, 
                 "Nationality" : nacionalidad, "Medical info" : infoMedica, "Checked bags" : numMaletasBodega} 

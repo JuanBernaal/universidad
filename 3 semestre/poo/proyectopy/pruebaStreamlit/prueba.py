@@ -30,3 +30,25 @@ st.write(fecha)
 hora = st.time_input("Hora del vuelo")
 
 st.write(hora)
+
+nombre = "Juan"
+edad = 15
+
+# Variable de estado para controlar la visualización del formulario
+show_form = st.button("Show more")
+
+if show_form:
+    with st.form("Mi formulario"):
+        # Agregar elementos del formulario
+        nombre = st.text_input("Nombre")
+        edad = st.number_input("Edad", min_value=0, max_value=100)
+        # Crear un botón de envío específico del formulario
+        submitted = st.form_submit_button("Enviar formulario")
+
+    # Verificar si el formulario fue enviado
+        if submitted:
+            # Realizar acciones asociadas con el envío del formulario
+            st.write(f"¡El formulario fue enviado! Nombre: {nombre}, Edad: {edad}")
+            st.info("Guardado")
+st.write(nombre, edad)
+

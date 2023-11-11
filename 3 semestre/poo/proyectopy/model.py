@@ -275,7 +275,7 @@ class Aeronave:
         return self.estado
 
 class Avion(Aeronave):
-    def __init__(self, marca, capacidad, mediator, numMotores=2, categoria="Comercial", cargaMax=100):
+    def __init__(self, marca, capacidad, mediator, numMotores, categoria, cargaMax):
         super().__init__(marca, capacidad, mediator)
         self.altitudMax = numMotores
         self.categoria = categoria
