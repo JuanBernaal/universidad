@@ -18,6 +18,7 @@ class TorreControl:
     def __init__(self):
         self.puertas = [PuertaEmbarque(1), PuertaEmbarque(2), PuertaEmbarque(3), PuertaEmbarque(4), PuertaEmbarque(5), PuertaEmbarque(6)]
         self.aeronaves = []
+        self.aviones = []
 
     def registrarAeronave(self, aeronave):
         self.aeronaves.append(aeronave)
@@ -110,12 +111,16 @@ class Vuelos:
 
     def disponible(self):
         return self.estado
+    
 class Aeropuerto:
     instancia = None
 
     def __init__(self):
         self.vuelos = []
         self.destinations = []
+        self.avionesAeropuerto = []
+        self.helicopterosAeropuerto = []
+        self.jetsAeropuerto = []
         self.torreControl = TorreControl()  # Crear una instancia de TorreControl
 
     @classmethod
@@ -152,6 +157,15 @@ class Aeropuerto:
 
     def empty(self):
         return not self.vuelos
+    
+    def emptyAirplanes(self):
+        return not self.avionesAeropuerto
+    
+    def emptyJets(self):
+        return not self.jetsAeropuerto
+    
+    def emptyHelicopters(self):
+        return not self.helicopterosAeropuerto
 
 class Aeronave:
     def __init__(self, m, c, mediator):
@@ -288,7 +302,7 @@ class Avion(Aeronave):
             print("Error: Entrada no valida. Debe ingresar un numero entero.")
 
 class Helicoptero(Aeronave):
-    def __init__(self, marca, capacidad, mediator, numRotores=4, maxElevacion=1000, uso="Servicio de rescate"):
+    def __init__(self, marca, capacidad, mediator, numRotores=1, maxElevacion=1000, uso="Servicio de rescate"):
         super().__init__(marca, capacidad, mediator)
         self.numRotores = numRotores
         self.maxElevacion = maxElevacion
@@ -381,7 +395,6 @@ class Pasajero(Persona):
         self.nacionalidad = input("Ingrese la nacionalidad del pasajero: ")
         self.infoMedica = input("Ingrese la informacion medica del pasajero: ")
         self.numMaletasBodega = int(input("Ingrese el numero de maletas de bodega del pasajero: "))
-        os.system("cls")
 
     def getNumMaletas(self):
         return self.numMaletasBodega

@@ -11,7 +11,7 @@ class View:
         
         option = st.sidebar.selectbox("Selecciona una opcion", ["Inicio", "Crear vuelos", "Crear aeronave", "Reservar vuelo", "Consultar informacion", "Simular"])
         if option == "Inicio":
-            st.title("Alfonso Bonilla Aragan")
+            st.title("Alfonso Bonilla Aragon")
             ##Mas descripcion
 
         if option == "Crear vuelos":
@@ -31,11 +31,11 @@ class View:
     
     def createFlight(self):
         ans = None
-        id = st.number_input("Ingrese la identificacion del vuelo", step=1)
-        destination = st.text_input("Ingrese la ciudad de destino", value=None)
-        date = st.date_input("Fecha del vuelo", format="YYYY/MM/DD", value=None)
+        id = st.number_input("Ingrese la identificacion del vuelo:", step=1)
+        destination = st.text_input("Ingrese la ciudad de destino:", value=None)
+        date = st.date_input("Fecha del vuelo:", format="YYYY/MM/DD", value=None)
         st.write(date)
-        time = st.time_input("Hora del vuelo", step=1800, value=None)
+        time = st.time_input("Hora del vuelo:", step=900, value=None)
         st.write(time)
         if st.button("Crear vuelo", type="primary"):
             ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time}
@@ -45,7 +45,7 @@ class View:
         
     def createAircraft(self):
         st.title("Creacion de aeronaves")
-        choice = st.selectbox("Seleccione un tipo de aeronave", ["Avion", "Jet Privado", "Helicoptero"])
+        choice = st.selectbox("Seleccione un tipo de aeronave:", ["Avion", "Jet Privado", "Helicoptero"])
 
         if choice == "Avion":
             ans = 1
@@ -58,61 +58,61 @@ class View:
 
         return ans
 
-    def createAirplane(self, aeropuerto):
+    def createAirplane(self):
         ans = None
-        brand = st.selectbox("Marca del avion", ["Boeing", "Airbus"])
+        brand = st.selectbox("Marca del avion:", ["Boeing", "Airbus"])
 
         if brand == "Boeing":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Boeing_full_logo.svg/1200px-Boeing_full_logo.svg.png", caption="Seattle, United States")
-            select = st.selectbox("Linea", ["Boeing 737", "Boeing 747", "Boeing 777", "Boeing 787"])
+            select = st.selectbox("Linea:", ["Boeing 737", "Boeing 747", "Boeing 777", "Boeing 787"])
 
             if select == "Boeing 737":
                 st.image("https://i.blogs.es/30c172/7372/1366_521.jpg", caption= "Boeing 737 max")
-                capacity = st.number_input("Capacidad del avion", step=1, value=180)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Boeing 747":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/boeing-747-400-large_tcm36-3689.jpg", caption="Boeing 747-400")
-                capacity = st.number_input("Capacidad del avion", step=1, value=550)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=550)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Boeing 777":
                 st.image("https://i0.wp.com/www.transponder1200.com/wp-content/uploads/2023/04/BOEING-777-ROLLOUT.jpg?fit=1050%2C600&ssl=1", caption="Boeing 777 premium comfort")
-                capacity = st.number_input("Capacidad del avion", step=1, value=288)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=288)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Boeing 787":
                 st.image("https://easbcn.com/wp-content/uploads/2020/07/256409_1-1000x423.jpg", caption="Boeing 787 dreamliner")
-                capacity = st.number_input("Capacidad del avion", step=1, value=250)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=250)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
         elif brand == "Airbus":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Airbus_Group_Logo_2014.svg/2560px-Airbus_Group_Logo_2014.svg.png", caption="Blagnac, France")
-            select = st.selectbox("Linea", ["Airbus A320", "Airbus A330", "Airbus A350", "Airbus A380", "Beluga Airbus"])
+            select = st.selectbox("Linea:", ["Airbus A320", "Airbus A330", "Airbus A350", "Airbus A380", "Beluga Airbus"])
 
             if select == "Airbus A320":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a320-large_tcm36-3644.jpg", caption= "Airbus A320")
-                capacity = st.number_input("Capacidad del avion", step=1, value=180)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=180)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Airbus A330":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a330-200-large_tcm36-3653.jpg", caption="Airbus A330-200")
-                capacity = st.number_input("Capacidad del avion", step=1, value=268)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=268)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Airbus A350":
                 st.image("https://aeroaffaires.es/wp-content/uploads/2021/07/1200px-a350_first_flight_-_low_pass_03-800x430-c-center.jpg", caption="Airbus A350")
-                capacity = st.number_input("Capacidad del avion", step=1, value=410)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=410)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Airbus A380":
                 st.image("https://images.theconversation.com/files/259828/original/file-20190219-43267-sw50kg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1356&h=668&fit=crop", caption="Airbus A380")
-                capacity = st.number_input("Capacidad del avion", step=1, value=853)
+                capacity = st.number_input("Capacidad del avion:", step=1, value=853)
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
 
             elif select == "Beluga Airbus":
                 st.image("https://upload.wikimedia.org/wikipedia/commons/7/72/%22Beluga_XL%22_A330-743L_%28cropped%29.jpg", caption="Beluga Airbus")
-                capacity = st.number_input("Capacidad del avion", step=1)
+                capacity = st.number_input("Capacidad del avion:", step=1)
                 st.info("Este es un avion de carga, por lo tanto se recomienda que la capacidad sea la cantidad de miembros para la tripulacion")
 
         engineCount = 2
@@ -122,11 +122,10 @@ class View:
 
         if advance:
             with st.form("Airplane advance configuration"):
-                newEngineCount = st.number_input("Cantidad de motores", step=1, value=2)
-                newCategory = st.text_input("Categoria del avion", value="Comercial")
-                newWeightElevation = st.number_input("Peso que puede levantar el avion", step=1, value=100)
-                submitted = st.form_submit_button("Guardar", type="primary")
-                if submitted:
+                newEngineCount = st.number_input("Cantidad de motores:", step=1)
+                newCategory = st.text_input("Categoria del avion")
+                newWeightElevation = st.number_input("Peso que puede levantar el avion (kg):", step=1)
+                if st.form_submit_button("Guardar", type="primary"):
                     engineCount = newEngineCount
                     category = newCategory
                     advance = newWeightElevation
@@ -135,12 +134,13 @@ class View:
                 advance = False
 
         if st.button("Crear avion", type="primary"):
-            ans = {"brand" : brand, "capacity" : capacity, "engineCount" : engineCount, "category" : category, "weightElevation" : weightElevation}
+            ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : weightElevation}
         else: ans = 0
 
         return ans
         
-    def createJet(self, aeropuerto):
+    def createJet(self):
+        ans = None
         brand = st.selectbox("Marca del Jet", ["Boeing Business Jets", "Airbus Corporate Jets", "Sukhoi Superjet", "Embraer Executive Jets", "Bombardier"])
 
         if brand == "Boeing Business Jets":
@@ -171,10 +171,12 @@ class View:
         capacityJet = st.number_input("Capacidad del Jet", step=1)
         owner = st.text_input("Nombre del propietario del Jet")
         if st.button("Crear Jet", type="primary"):
-            jet = JetPrivado(brand, capacityJet, aeropuerto.torreControl, owner)
-            return jet
+            ans = {"Brand" : brand, "Capacity" : capacityJet, "Owner" : owner}
+        else: ans = 0
+        return ans
         
-    def createHelicopter(self, aeropuerto):
+    def createHelicopter(self):
+        ans = None
         brand = st.selectbox("Marca del Helicopter", ["Airbus Helicopters", "Bell"])
 
         if brand == "Airbus Helicopters":
@@ -198,14 +200,14 @@ class View:
                 st.image("https://d21buns5ku92am.cloudfront.net/67992/images/365357-ESGBell_429Rendering-d5a7cc-large-1600878707.jpg", caption="Bell 429", width=700)
         
         capacityHelicopter = st.number_input("Capacidad del Helicoptero", step=1)
-        numRotores = 4
+        numRotores = 1
         elevation = 1000
         use = "Servicio de rescate"
         advance = st.button("Configuracion avanzada")
 
         if advance:
             with st.form("Helicopter Advanced Settings"):
-                newNumRotores = st.number_input("Numero de rotores", step=1, value=4)
+                newNumRotores = st.number_input("Numero de rotores", step=1, value=1)
                 newElevation = st.number_input("Altitud maxima", step=1, value=1000)
                 newUse = st.text_input("Uso", value="Servicio de rescate")
                 st.info("Los valores que se muestran son parametros predeterminados y pueden ser modificados")
@@ -217,15 +219,15 @@ class View:
             if st.button("Cerrar"):
                 advance = False
         if st.button("Crear helicoptero", type="primary"):
-            helicoptero = Helicoptero(brand, capacityHelicopter, aeropuerto.torreControl, numRotores, elevation, use)
-            return helicoptero
+            ans = {"Brand" : brand, "Capacity" : capacityHelicopter, "Number of Rotors" : numRotores, "Max Height" : elevation, "Use" : use}
+        else: ans = 0
+
+        return ans
+            
             
     def bookFlight(self, aeropuerto):
         st.title("Reservar Vuelo")
-        if aeropuerto.empty():
-            st.warning("No hay vuelos creados")
         
-            
     def showInfo(self):
         ans = 1
         st.write("Sistema de consulta")
@@ -240,3 +242,54 @@ class View:
         if aeropuerto.empty():
             st.warning("⚠️ No hay vuelos")
         else: st.table(aeropuerto.destinations)
+        
+    def showAirplanes(self, aeropuerto):
+        if aeropuerto.emptyAirplanes():
+            st.warning("⚠️ No hay aviones")
+        else: st.table(aeropuerto.avionesAeropuerto)
+
+    def showJets(self, aeropuerto):
+        if aeropuerto.emptyJets():
+            st.warning("⚠️ No hay Jets")
+        else: st.table(aeropuerto.jetsAeropuerto)
+
+    def showHelicopters(self, aeropuerto):
+        if aeropuerto.emptyHelicopters():
+            st.warning("⚠️ No hay Helicopteros")
+        else: st.table(aeropuerto.helicopterosAeropuerto)
+        
+    def bookFlight(self, aeropuerto):
+        st.title("Reservar Vuelo")
+        if aeropuerto.empty():
+            st.warning("⚠️ No hay vuelos")
+        else: 
+            st.header("Register")
+            self.passengerData()
+            
+    def passengerData(self):
+        nombre = st.text_input("Ingrese el nombre del pasajero: ")
+        apellido = st.text_input("Ingrese el apellido del pasajero: ")
+        edad = st.number_input("Ingrese la edad del pasajero: ", step=1)
+        cedula = st.text_input("Ingrese la cedula del pasajero: ")
+        fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ")
+        genero = st.text_input("Ingrese el genero del pasajero: ")
+        direccion = st.text_input("Ingrese la direccion del pasajero: ")
+        numTel = st.text_input("Ingrese el numero de telefono del pasajero: ")
+        correo = st.text_input("Ingrese el correo del pasajero: ")
+        nacionalidad = st.text_input("Ingrese la nacionalidad del pasajero: ")
+        infoMedica = st.text_input("Ingrese la informacion medica del pasajero: ")
+        numMaletasBodega = st.number_input("Ingrese el numero de maletas de bodega del pasajero: ", step=1)
+        return {"Name" : nombre, "Last Name" : apellido, "Age" : edad, "id" : cedula, "Birth Day" : fechaNacimiento,
+                "Gender" : genero, "Adress" : direccion, "Phone Number" : numTel, "Email" : correo, 
+                "Nationality" : nacionalidad, "Medical info" : infoMedica, "Checked bags" : numMaletasBodega} 
+    
+    def showAircraft(self):
+        select = st.selectbox("Tipo de aeronave:", ["Avion", "Jet", "Helicoptero"])
+        if select == "Avion":
+            ans = 1
+        elif select == "Jet":
+            ans = 2
+        elif select == "Helicoptero":
+            ans = 3
+        
+        return ans
