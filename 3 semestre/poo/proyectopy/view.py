@@ -88,7 +88,7 @@ class View:
 
         return ans
 
-    ## Función para crear un avion que retorna un diccionario
+    ## las siguientes 3 Funciones para crean aeronaves y retornan diccionarios con la info necesaria para hacer el objeto
 
     def createAirplane(self):
         ans = None
@@ -297,7 +297,7 @@ class View:
         return ans
             
             
-    def bookFlight(self, aeropuerto):
+    def bookFlight(self):
         st.title("Reservar Vuelo")
         
     def showInfo(self):

@@ -55,7 +55,7 @@ class Controller:
                     self.pasajero = Pasajero(passDic["Name"], passDic["Last Name"], passDic["Age"], passDic["id"], passDic["Birth Day"],
                                         passDic["Gender"], passDic["Address"], passDic["Phone Number"], passDic["Email"], 
                                         passDic["Nationality"], passDic["Medical Info"], passDic["Checked bags"])
-                indice = self.view.bookFlight(self.aeropuerto)
+                indice = self.view.bookFlight()
                 if not indice == -1:
                     tmp = self.aeropuerto.obtenerVuelo(indice)
                     self.pasajero.asignarVueloPass(self.pasajero, tmp)
