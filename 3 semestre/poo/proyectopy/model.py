@@ -26,8 +26,8 @@ class TorreControl:
             if aeronave != emisor:
                 aeronave.recibirMensaje(mensaje)
 
-    def asignarPuertaDeEmbarque(self, aeronave, puerta, cod, hora):
-        aeronave.asignarPuertaDeEmbarque(puerta, cod, hora)
+    def asignarPuertaDeEmbarque(self, aeronave, puerta, cod, hora, airline):
+        aeronave.asignarPuertaDeEmbarque(puerta, cod, hora, airline)
         self.puertas[puerta - 1].disponibilidad = False
 
     def disponibilidadNaves(self):
@@ -46,7 +46,7 @@ class TorreControl:
                 aeronave.agregarVuelo(vuelo)
                 for puerta in self.puertas:
                     if puerta.disponibilidad:
-                        self.asignarPuertaDeEmbarque(aeronave, puerta.identificacion, vuelo.identificacion, vuelo.hora)
+                        self.asignarPuertaDeEmbarque(aeronave, puerta.identificacion, vuelo.identificacion, vuelo.hora, vuelo.airline)
                         break 
                 break
  
@@ -83,7 +83,7 @@ class TorreControl:
         return time.strftime("%H:%M:%S")
 
 class Vuelos:
-    def __init__(self, id, fecha, ciudadDestino, hora, capacidad=100):
+    def __init__(self, id, fecha, ciudadDestino, hora, airline, capacidad=100):
         self.identificacion = id
         self.fecha = fecha
         self.ciudadOrigen = "CLO 🟡🔵🔴"
@@ -92,6 +92,7 @@ class Vuelos:
         self.capacidad = capacidad
         self.numPasajeros = 0
         self.estado = True
+        self.airline = airline
 
     def agregarPasajero(self):
         if self.numPasajeros < self.capacidad:
@@ -197,8 +198,8 @@ class Aeronave:
     def recibirMensaje(self, mensaje):
         st.write(f"{self.marca} recibio mensaje: {mensaje}")
 
-    def asignarPuertaDeEmbarque(self, puerta, cod, hora):
-        st.write(f"{self.marca} se dirige a la puerta de embarque: {puerta} Para el vuelo #{cod} Hora: {hora}")
+    def asignarPuertaDeEmbarque(self, puerta, cod, hora, airline):
+        st.write(f"{self.marca} se dirige a la puerta de embarque: {puerta} Para el vuelo #{cod} de {airline}. Hora: {hora}")
 
     def agregarVuelo(self, vuelo):
         flag = self.estado
@@ -416,3 +417,12 @@ class Tripulante(Persona):
         print(f"Cargo en el avión: {self.cargo}")
         print(f"Años de experiencia: {self.xp}")
         print(f"Horas diarias: {self.hrsDiarias}")
+
+class Airline():
+    def __init__(self, name):
+        self.nombre = name
+        self.aviones = []
+
+    def getAviones(self):
+        st.header("Aviones")
+        st.table(self.aviones)

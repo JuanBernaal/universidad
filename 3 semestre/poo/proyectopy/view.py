@@ -34,6 +34,21 @@ class View:
     
     def createFlight(self):
         ans = None
+
+        airline = st.selectbox("Seleccione la aerolinea", ["Latam Airlines", "Avianca", "Copa Airlines"])
+
+        if airline == "Latam Airlines":
+            st.image("https://s.latamairlines.com/images/seo/logo-latam-airlines.png")
+            airline = "Latam Airlines 🔵🔴"
+        
+        elif airline == "Avianca":
+            st.image("https://volavi.co/wp-content/uploads/2023/10/Nuevo-Logo_avianca-Octubre2023.jpg.webp")
+            airline = "Avianca 🔴⚪"
+
+        elif airline == "Copa Airlines":
+            st.image("https://i.pinimg.com/originals/36/2e/f1/362ef1504c88832dafac7d03d05f419a.jpg")
+            airline = "Copa Airlines 🔵⚪"
+
         id = st.number_input("Ingrese la identificacion del vuelo:", step=1, value=None)
         destination = st.text_input("Ingrese la ciudad de destino:", value=None)
         date = st.date_input("Fecha del vuelo:", format="YYYY/MM/DD", value=None)
@@ -42,7 +57,7 @@ class View:
         st.write(time)
         boton = st.button("Crear vuelo", type="primary")
         if boton and (id != None) and (destination != None) and (date != None):
-            ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time}
+            ans = {"ID" : id, "Date" : date, "Departure Country" : "CLO 🟡🔵🔴", "Destination" : destination, "Time" : time, "Airline" : airline}
             st.success("Su vuelo fue creado con exito")
         elif boton and ((id == None) or (destination == None) or (date == None)):
             st.error("⛔Todos los campos son obligatorios")
@@ -373,6 +388,7 @@ class View:
             else:
                 aeropuerto.asignarVuelo()
                 aeropuerto.torreControl.simulacion()
+                st.balloons()
         st.info("Antes de simular se deben de haber creado 2 vuelos y 2 aeronaves como minimo")
             
     def getCountryInfo(self):

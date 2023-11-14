@@ -15,7 +15,7 @@ class Controller:
             dic = self.view.createFlight()
 
             if not dic == 0:
-                vuelo = Vuelos(dic["ID"], dic["Date"], dic["Destination"], dic["Time"])
+                vuelo = Vuelos(dic["ID"], dic["Date"], dic["Destination"], dic["Time"], dic["Airline"])
                 self.aeropuerto.agregarDestino(vuelo)
                 self.aeropuerto.destinationsTab(dic)
 
