@@ -29,7 +29,7 @@ class Controller:
 
                 if not airplaneDic == 0:
                     Avion(airplaneDic["Brand"], airplaneDic["Capacity"], self.aeropuerto.torreControl, airplaneDic["Engine Count"], 
-                          airplaneDic["Category"], airplaneDic["Weight Elevation"])
+                          airplaneDic["Category"], airplaneDic["Autonomy"])
                     self.aeropuerto.avionesAeropuerto.append(airplaneDic)
                     
             elif choice == 2:
@@ -55,7 +55,7 @@ class Controller:
                     self.pasajero = Pasajero(passDic["Name"], passDic["Last Name"], passDic["Age"], passDic["id"], passDic["Birth Day"],
                                         passDic["Gender"], passDic["Address"], passDic["Phone Number"], passDic["Email"], 
                                         passDic["Nationality"], passDic["Medical Info"], passDic["Checked bags"])
-                indice = self.view.bookFlight()
+                indice = self.view.bookFlight(self.aeropuerto)
                 if not indice == -1:
                     tmp = self.aeropuerto.obtenerVuelo(indice)
                     self.pasajero.asignarVueloPass(self.pasajero, tmp)
