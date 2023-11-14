@@ -167,6 +167,7 @@ class View:
 
         advance = st.button("Mostrar especificaciones")
         conguration = {"Cantidad de motores" : engineCount, "Categoria del avion" : category, "Autonomy (miles)" : autonomy}
+        estado = True
         if advance:
             st.table(conguration)
 
@@ -176,7 +177,7 @@ class View:
         ap = st.button("Crear avion", type="primary")
 
         if ap and capacity > 0:
-            ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : autonomy}
+            ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : autonomy, "Available" : estado}
             st.success("Avion creado con exito")
         elif ap and capacity <= 0:
             st.error("⛔La capacidad debe ser un entero postivo")
@@ -292,7 +293,7 @@ class View:
         
     def showInfo(self):
         ans = 1
-        st.write("Sistema de consulta")
+        st.title("Sistema Integrado De Consulta")
         select = st.selectbox("Seleccione el tipo de consulta", ["Consultar vuelos", "Consultar puertas", "Consultar aeronaves"])
         if select == "Consultar puertas":
             ans = 2
@@ -416,3 +417,21 @@ class View:
                 st.header("Moneda")
                 st.table(currency)
                 st.image(flag)
+
+    def manageAirplanes(self, aeropuerto):
+        ans = 0
+        st.title("Gestionar Aviones")
+        password = st.text_input("Ingrese la contraseña:", value=None)
+        if password == "nomelase":
+            numb = st.number_input("Ingrese el indice del avion que quiere gestionar: ", step=1)
+            if numb < len(aeropuerto.avionesAeropuerto):
+                op = st.selectbox("Seleccione una opcion:", ["Disponible", "Mantenimiento"])
+                
+                if op == "Mantenimiento":
+                    ans = [1, numb]
+                elif op == "Disponible":
+                    ans = [2, numb]
+        elif password != None:
+            st.error("Contraseña Incorrecta")
+
+        return ans

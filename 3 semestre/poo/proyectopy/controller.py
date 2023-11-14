@@ -74,6 +74,12 @@ class Controller:
 
                 if opti == 1:
                     self.view.showAirplanes(self.aeropuerto)
+                    x = self.view.manageAirplanes(self.aeropuerto)
+                    if x != 0:
+                        if x[0] == 1:
+                            self.aeropuerto.avionesAeropuerto[x[1]]["Available"] = False
+                        elif x[0] == 2:
+                            self.aeropuerto.avionesAeropuerto[x[1]]["Available"] = True
                 
                 elif opti == 2:
                     self.view.showJets(self.aeropuerto)

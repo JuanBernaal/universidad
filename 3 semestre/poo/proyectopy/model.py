@@ -274,6 +274,7 @@ class Avion(Aeronave):
         self.altitudMax = numMotores
         self.categoria = categoria
         self.numMotores = cargaMax
+        self.estado = True
 
     def getAltitudMax(self):
         return self.altitudMax
