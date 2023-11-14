@@ -3,7 +3,10 @@ import json
 import requests
 
 class View:
-
+    
+   
+    ## Menu que retorna el valor de selección
+    
     def mainMenu(self):
         ans = 1
         
@@ -13,8 +16,7 @@ class View:
                                                                 "Consultar pais"])
         if option == "Inicio":
             st.title("Alfonso Bonilla Aragon")
-            ##Mas descripcion
-
+    
         if option == "Crear vuelos":
             ans = 2
             st.title("Creacion de vuelos")
@@ -32,6 +34,8 @@ class View:
 
         return ans
     
+    ## Crea vuelos y retorna un diccionario
+
     def createFlight(self):
         ans = None
 
@@ -66,7 +70,10 @@ class View:
             ans = 0
         return ans
         
+    ## Menu de seleccionar qué aeronave crear
+
     def createAircraft(self):
+
         st.title("Creacion de aeronaves")
         choice = st.selectbox("Seleccione un tipo de aeronave:", ["Avion", "Jet Privado", "Helicoptero"])
 
@@ -80,6 +87,8 @@ class View:
             ans = 3
 
         return ans
+
+    ## Función para crear un avion que retorna un diccionario
 
     def createAirplane(self):
         ans = None

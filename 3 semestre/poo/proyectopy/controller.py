@@ -8,6 +8,8 @@ class Controller:
         self.aeropuerto = aeropuerto
         self.pasajero = pasajero
 
+    "Funcion que recibe las elecciones del view y hace todas las operaciones necesarias"
+
     def ejecutar(self):
         option = self.view.mainMenu()
 
