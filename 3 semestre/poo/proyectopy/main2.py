@@ -54,7 +54,7 @@ def reserva(aeropuerto):
         pasajero = Pasajero()
         pasajero.obtenerDatosPasajero()
         printLinea()
-        flag = True
+        flag = True 
         while flag:
             pasajero.getInformacion()
             s = int(input("¿Los datos son correctos?\n1. Sí\n2. No\n"))

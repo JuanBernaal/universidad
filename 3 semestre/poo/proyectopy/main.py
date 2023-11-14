@@ -7,6 +7,6 @@ def main():
     airport = Aeropuerto.obtenerInstancia()
     view = View()
     passenger = Pasajero
-    controlador = Controller(view, airport, passenger)
+    controlador = Controller(view, airport, passenger) 
     controlador.ejecutar()    
 main()

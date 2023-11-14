@@ -1,15 +1,16 @@
 import streamlit as st
-from model import Vuelos
-from model import Avion
-from model import JetPrivado
-from model import Helicoptero
+import json
+import requests
 
 class View:
 
     def mainMenu(self):
         ans = 1
         
-        option = st.sidebar.selectbox("Selecciona una opcion", ["Inicio", "Crear vuelos", "Crear aeronave", "Reservar vuelo", "Consultar informacion", "Simular"])
+        option = st.sidebar.selectbox("Selecciona una opcion", ["Inicio", "Crear vuelos", 
+                                                                "Crear aeronave", "Reservar vuelo", 
+                                                                "Consultar informacion", "Simular",
+                                                                "Consultar pais"])
         if option == "Inicio":
             st.title("Alfonso Bonilla Aragon")
             ##Mas descripcion
@@ -26,6 +27,8 @@ class View:
             ans = 5
         elif option == "Simular":
             ans = 6    
+        elif option == "Consultar pais":
+            ans = 7
 
         return ans
     
@@ -77,7 +80,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 23000
+                autonomy = 3550
 
             elif select == "Boeing 747":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/boeing-747-400-large_tcm36-3689.jpg", caption="Boeing 747-400")
@@ -85,7 +88,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 4
                 category = "Comercial"
-                weightElevation = 140000
+                autonomy = 7730
 
             elif select == "Boeing 777":
                 st.image("https://i0.wp.com/www.transponder1200.com/wp-content/uploads/2023/04/BOEING-777-ROLLOUT.jpg?fit=1050%2C600&ssl=1", caption="Boeing 777 premium comfort")
@@ -93,7 +96,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 110000
+                autonomy = 7880
 
             elif select == "Boeing 787":
                 st.image("https://easbcn.com/wp-content/uploads/2020/07/256409_1-1000x423.jpg", caption="Boeing 787 dreamliner")
@@ -101,7 +104,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 75000
+                autonomy = 7643
 
         elif brand == "Airbus":
             st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Airbus_Group_Logo_2014.svg/2560px-Airbus_Group_Logo_2014.svg.png", caption="Blagnac, France")
@@ -113,7 +116,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 30000
+                autonomy = 3300
 
             elif select == "Airbus A330":
                 st.image("https://aircharterservice-globalcontent-live.cphostaccess.com/images/aircraft-guide-images/group/airbus-a330-200-large_tcm36-3653.jpg", caption="Airbus A330-200")
@@ -121,7 +124,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 120000
+                autonomy = 7200
 
             elif select == "Airbus A350":
                 st.image("https://aeroaffaires.es/wp-content/uploads/2021/07/1200px-a350_first_flight_-_low_pass_03-800x430-c-center.jpg", caption="Airbus A350")
@@ -129,7 +132,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 115000
+                autonomy = 8690
 
             elif select == "Airbus A380":
                 st.image("https://images.theconversation.com/files/259828/original/file-20190219-43267-sw50kg.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1356&h=668&fit=crop", caption="Airbus A380")
@@ -137,7 +140,7 @@ class View:
                 st.info("La capacidad recomendada esta relacionada con la linea del avion")
                 engineCount = 4
                 category = "Comercial"
-                weightElevation = 160000
+                autonomy = 8200
 
             elif select == "Beluga Airbus":
                 st.image("https://upload.wikimedia.org/wikipedia/commons/7/72/%22Beluga_XL%22_A330-743L_%28cropped%29.jpg", caption="Beluga Airbus")
@@ -145,10 +148,10 @@ class View:
                 st.info("Este es un avion de carga, por lo tanto se recomienda que la capacidad sea la cantidad de miembros para la tripulacion")
                 engineCount = 2
                 category = "Comercial"
-                weightElevation = 1000000
+                autonomy = 2200
 
         advance = st.button("Mostrar especificaciones")
-        conguration = {"Cantidad de motores" : engineCount, "Categoria del avion" : category, "Weight Elevation" : weightElevation}
+        conguration = {"Cantidad de motores" : engineCount, "Categoria del avion" : category, "Autonomy (miles)" : autonomy}
         if advance:
             st.table(conguration)
 
@@ -158,7 +161,7 @@ class View:
         ap = st.button("Crear avion", type="primary")
 
         if ap and capacity > 0:
-            ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : weightElevation}
+            ans = {"Brand" : brand, "Capacity" : capacity, "Engine Count" : engineCount, "Category" : category, "Weight Elevation" : autonomy}
             st.success("Avion creado con exito")
         elif ap and capacity <= 0:
             st.error("⛔La capacidad debe ser un entero postivo")
@@ -302,30 +305,37 @@ class View:
             st.warning("⚠️ No hay Helicopteros")
         else: st.table(aeropuerto.helicopterosAeropuerto)
         
-    def bookFlight(self, aeropuerto):
+    def registerPassenger(self, aeropuerto):
         st.title("Reservar Vuelo")
         if aeropuerto.empty():
             st.warning("⚠️ No hay vuelos")
+            ans = 0
         else: 
-            st.header("Register")
-            self.passengerData()
+            st.header("Registrar Pasajero")
+            ans = 1
+        return ans
+            
             
     def passengerData(self):
-        nombre = st.text_input("Ingrese el nombre del pasajero: ")
-        apellido = st.text_input("Ingrese el apellido del pasajero: ")
-        edad = st.number_input("Ingrese la edad del pasajero: ", step=1, value=None)
-        cedula = st.text_input("Ingrese la cedula del pasajero: ")
-        fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ")
-        genero = st.text_input("Ingrese el genero del pasajero: ")
-        direccion = st.text_input("Ingrese la direccion del pasajero: ")
-        numTel = st.text_input("Ingrese el numero de telefono del pasajero: ")
-        correo = st.text_input("Ingrese el correo del pasajero: ")
-        nacionalidad = st.text_input("Ingrese la nacionalidad del pasajero: ")
-        infoMedica = st.text_input("Ingrese la informacion medica del pasajero: ")
-        numMaletasBodega = st.number_input("Ingrese el numero de maletas de bodega del pasajero: ", step=1, value=None)
-        return {"Name" : nombre, "Last Name" : apellido, "Age" : edad, "id" : cedula, "Birth Day" : fechaNacimiento,
-                "Gender" : genero, "Adress" : direccion, "Phone Number" : numTel, "Email" : correo, 
-                "Nationality" : nacionalidad, "Medical info" : infoMedica, "Checked bags" : numMaletasBodega} 
+        with st.form("Register Passenger"):
+            nombre = st.text_input("Ingrese el nombre del pasajero: ")
+            apellido = st.text_input("Ingrese el apellido del pasajero: ")
+            edad = st.number_input("Ingrese la edad del pasajero: ", step=1, value=None)
+            cedula = st.text_input("Ingrese la cedula del pasajero: ")
+            fechaNacimiento = st.date_input("Ingrese la fecha de nacimiento del pasajero: ")
+            genero = st.selectbox("Ingrese el genero del pasajero: ", ["Masculino", "Femenino"])
+            direccion = st.text_input("Ingrese la direccion del pasajero: ")
+            numTel = st.text_input("Ingrese el numero de telefono del pasajero: ")
+            correo = st.text_input("Ingrese el correo del pasajero: ")
+            nacionalidad = st.text_input("Pais de nacimiento: ")
+            infoMedica = st.text_input("Ingrese la informacion medica del pasajero: ")
+            numMaletasBodega = st.number_input("Ingrese el numero de maletas de bodega del pasajero: ", step=1, value=None)
+            if st.form_submit_button("Registrarse",type="primary"):
+                ans = {"Name" : nombre, "Last Name" : apellido, "Age" : edad, "id" : cedula, "Birth Day" : fechaNacimiento,
+                        "Gender" : genero, "Address" : direccion, "Phone Number" : numTel, "Email" : correo, 
+                        "Nationality" : nacionalidad, "Medical Info" : infoMedica, "Checked bags" : numMaletasBodega} 
+            else: ans = 0
+        return ans  
     
     def showAircraft(self):
         select = st.selectbox("Tipo de aeronave:", ["Avion", "Jet", "Helicoptero"])
@@ -337,3 +347,56 @@ class View:
             ans = 3
         
         return ans
+    
+    def bookFlight(self, aeropuerto):
+        st.title("Sistema de reserva de vuelo")
+        self.showFlights(aeropuerto)
+        option = st.number_input("Indice del vuelo a reservar:", step=1) 
+        but = st.button("Reservar vuelo", type="primary")
+        if but and (option < len(aeropuerto.vuelos)):
+            ans = option
+        elif but and (option >= len(aeropuerto.vuelos)):
+            st.error("El indice debe estar en la tabla de vuelos")
+            ans = -1
+        else: 
+            ans = -1
+        return ans
+    
+    def sim(self, aeropuerto):
+        st.title("Sistema Integrado de Simulación")
+        simButton = st.button("Simular", type="primary")
+        if simButton: 
+            if ((len(aeropuerto.vuelos)) < 2):
+                st.error("No se puede empezar la simulacion, No hay suficientes vuelos")
+            elif ((len(aeropuerto.avionesAeropuerto)) + (len(aeropuerto.helicopterosAeropuerto)) + (len(aeropuerto.jetsAeropuerto)) < 2):
+                st.error("No se puede empezar la simulacion, No hay suficientes aeronaves")
+            else:
+                aeropuerto.asignarVuelo()
+                aeropuerto.torreControl.simulacion()
+        st.info("Antes de simular se deben de haber creado 2 vuelos y 2 aeronaves como minimo")
+            
+    def getCountryInfo(self):
+        country = st.text_input("Nombre del pais:")
+        country.lower()
+        st.info("El pais a consultar debe estar escrito en Ingles")
+        if st.button("Consultar", type="primary"):
+            
+            url = "https://restcountries.com/v3.1/name/" + country
+            ans = requests.get(url)
+            if ans.status_code == 200:
+                data = json.loads(ans.text)
+                name = data[0]["name"]["official"]
+                currency = data[0]["currencies"]
+                capital = data[0]["capital"][0]
+                region = data[0]["region"]
+                popu = data[0]["population"]
+                flag = data[0]["flags"]["png"]
+                dic = {"Name" : name, 
+                        "Capital City" : capital,
+                        "Continent" : region,
+                        "Population" : popu}
+                st.header("Información general")
+                st.table(dic)
+                st.header("Moneda")
+                st.table(currency)
+                st.image(flag)
