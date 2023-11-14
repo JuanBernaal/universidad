@@ -60,7 +60,7 @@ class Controller:
                     st.success("El vuelo ha sido reservado")
                         
 
-        elif option == 5:
+        elif option == 5:       ## Consultar Informacion ##       
             selct = self.view.showInfo()
 
             if selct == 1:
@@ -87,8 +87,8 @@ class Controller:
                 elif opti == 3:
                     self.view.showHelicopters(self.aeropuerto)
                     
-        elif option == 6:
+        elif option == 6:       ## Simular ##
             self.view.sim(self.aeropuerto)     
             
-        elif option == 7:
+        elif option == 7:       ## API Consulta externa ##
             self.view.getCountryInfo()     

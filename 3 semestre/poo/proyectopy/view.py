@@ -393,6 +393,7 @@ class View:
         st.info("Antes de simular se deben de haber creado 2 vuelos y 2 aeronaves como minimo")
             
     def getCountryInfo(self):
+        st.title("Sistema Integrado de Consulta API")
         country = st.text_input("Nombre del pais:")
         country.lower()
         st.info("El pais a consultar debe estar escrito en Ingles")
@@ -401,22 +402,27 @@ class View:
             url = "https://restcountries.com/v3.1/name/" + country
             ans = requests.get(url)
             if ans.status_code == 200:
-                data = json.loads(ans.text)
-                name = data[0]["name"]["official"]
-                currency = data[0]["currencies"]
-                capital = data[0]["capital"][0]
-                region = data[0]["region"]
-                popu = data[0]["population"]
-                flag = data[0]["flags"]["png"]
-                dic = {"Name" : name, 
-                        "Capital City" : capital,
-                        "Continent" : region,
-                        "Population" : popu}
-                st.header("Información general")
-                st.table(dic)
-                st.header("Moneda")
-                st.table(currency)
-                st.image(flag)
+
+                    data = json.loads(ans.text)
+                    name = data[0]["name"]["official"]
+                    currency = data[0]["currencies"]
+                    capital = data[0]["capital"][0]
+                    region = data[0]["region"]
+                    popu = data[0]["population"]
+                    flag = data[0]["flags"]["png"]
+                    dic = {"Name" : name, 
+                            "Capital City" : capital,
+                            "Continent" : region,
+                            "Population" : popu}
+                    st.header("Información general")
+                    st.table(dic)
+                    st.header("Moneda")
+                    st.table(currency)
+                    st.image(flag)
+                    st.balloons()
+
+            else:
+                st.error("No se logró encontrar información del pais")
 
     def manageAirplanes(self, aeropuerto):
         ans = 0
