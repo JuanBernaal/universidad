@@ -8,5 +8,5 @@ def main():
     view = View()
     passenger = Pasajero
     controlador = Controller(view, airport, passenger) 
-    controlador.ejecutar()    
+    controlador.ejecutar()  
 main()
