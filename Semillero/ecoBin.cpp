@@ -15,6 +15,7 @@ vector<int> makeList(int a, int b, int c, int d, int e, int f){
     return ans;
 }
 
+// Encuentra el menor valor de una lista
 int minor(vector<int> v){
     int min = v[0];
     for(int i = 1; i < 6; i++){
@@ -40,6 +41,8 @@ int main(){
         }
         
         int BCG, BGC, CBG, CGB, GBC, GCB;
+
+        // Estas sumas son la fuerza bruta para encontrar el menor.
 
         BCG = bin2[0] + bin3[0] + bin1[2] + bin3[2] + bin1[1] + bin2[1];
         BGC = bin2[0] + bin3[0] + bin1[1] + bin3[1] + bin1[2] + bin2[2];
