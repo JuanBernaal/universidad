@@ -38,7 +38,7 @@ int main(){
             }else if(num == max)
                 links.push_back(link);
         }
-        printf("Case %d:\n", i + 1);
+        printf("Case #%d:\n", i + 1);
         for(int i = 0; i < links.size(); i++){
             cout << links[i] << endl;
         }
