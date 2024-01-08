@@ -4,20 +4,6 @@
 
 using namespace std;
 
-vector<string> split(string s){
-    vector<string> ans;
-    string word = "";
-    for(int i = 0; i < s.size(); i++){
-        if(s[i] == ' '){
-            ans.push_back(word);
-            word = "";
-        }else
-            word += s[i];
-    }
-    ans.push_back(word);
-    return ans;
-}
-
 int main(){
     int cases, num, max;
     string link;
