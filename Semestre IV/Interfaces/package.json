@@ -1,0 +1,10 @@
+{
+    "name": "examplenode",
+    "version": "1.0.0",
+    "dependencies": {
+        "express": "^4.18.2",
+        "nodemon": "^3.0.3",
+        "prompt": "^1.3.0",
+        "prompt-sync": "^4.2.0"
+    }
+}
