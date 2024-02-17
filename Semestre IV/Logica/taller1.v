@@ -58,4 +58,33 @@ Proof. simpl. reflexivity. Qed.
 
 (*########################## Punto 5 ##########################*)
 
-(**)
+Definition sucesor (n: nat) : nat :=
+    match n with 
+    | 0 => S 0 
+    | S m => S(S m)
+    end. 
+
+Definition masTres (n: nat) : nat := 
+    S (S (S n)). 
+
+Example testMasTres : masTres 1 = 4.
+Proof. simpl. reflexivity. Qed.
+
+(*########################## Punto 6 ##########################*)
+
+Definition multPar (a b : nat) : nat :=
+    a * b.
+
+Example testMultPar : multPar 3, 4 = 12.
+Proof. simpl. reflexivity. Qed.
+
+(*########################## Punto 7 ##########################*)
+
+Definition componerFunciones {A B C : Type} (f : A -> B) (g : C -> A) : C -> B :=
+    fun x => f (g x).
+
+(*########################## Punto 9 ##########################*)
+
+Definition esImpar (n :nat) : bool :=
+    negb(Nat.leb(Nat.double(Nat.div n))n).
+    
