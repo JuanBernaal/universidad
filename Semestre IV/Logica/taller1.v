@@ -120,6 +120,11 @@ Definition punto11 (g: nat -> nat) (f: nat -> nat) (t: nat * nat) : (nat * nat) 
 
 (*########################## Punto 12 ##########################*)
 
-Definition punto12 (t : nat*nat) (f: nat -> nat)
+Definition punto12 (t : nat*nat) (f: nat -> nat) : nat :=
     match t with
     | (a, b) => 
+        match Nat.leb b (2*a) with
+        |true => f (b - 2 * a)
+        |false => f (a + 2)
+        end
+    end. 
