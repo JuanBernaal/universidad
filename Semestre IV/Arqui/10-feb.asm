@@ -6,11 +6,11 @@ main:
 	la	$s0, keyboard
 loop01:
 	addi 	$s1, $0, 1
-	lw	$t0, 0($s0)
+	lw	    $t0, 0($s0)
 	beq 	$t0, $s0, loop01
 loop02:
 	beq 	$t0, $s1, display
-	sll	$s1, $s1, 1
+	sll	    $s1, $s1, 1
 	andi	$t1, $s1, 1023
 	beq 	$t1, $0, loop01 
 	j	loop02
@@ -75,8 +75,8 @@ compara10:
 compara11:
 	j loop01
 write_data:
-	la	$s2, seven_seg
-	sw	$t0, 0($s2)
+	la	    $s2, seven_seg
+	sw      $t0, 0($s2)
 	.end
 ### Numeros
 
