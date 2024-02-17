@@ -124,7 +124,7 @@ Definition punto12 (t : nat*nat) (f: nat -> nat) : nat :=
     match t with
     | (a, b) => 
         match Nat.leb b (2*a) with
-        |true => f (b - 2 * a)
+        |true => f (b - (2 * a))
         |false => f (a + 2)
         end
     end. 
