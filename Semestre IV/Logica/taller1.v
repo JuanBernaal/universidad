@@ -30,7 +30,7 @@ Definition neg (b:bool) : bool :=
 Definition nor2 (a  b : bool) : bool :=
     neg (orb a b).
 
-Example testNor2.1 : nor false false = true.
+Example testNor21 : nor false false = true.
 Proof. simpl. reflexivity. Qed.
 
 (*########################## Punto 3 ##########################*)
@@ -75,7 +75,7 @@ Proof. simpl. reflexivity. Qed.
 Definition multPar (a b : nat) : nat :=
     a * b.
 
-Example testMultPar : multPar 3, 4 = 12.
+Example testMultPar : multPar 3 4 = 12.
 Proof. simpl. reflexivity. Qed.
 
 (*########################## Punto 7 ##########################*)
@@ -85,10 +85,41 @@ Definition componerFunciones {A B C : Type} (f : A -> B) (g : C -> A) : C -> B :
 
 (*########################## Punto 8 ##########################*)
 
-Definition parejas (t: (nat*nat)) : (nat*nat) :=
-    (a, b) => (a+b, b-a).
+Definition parejas (t : nat * nat) : nat * nat :=
+  match t with
+  | (a, b) => (a + b, b - a)
+  end.
 
 (*########################## Punto 9 ##########################*)
 
 Definition esImpar (n :nat) : bool :=
-    negb(Nat.leb(Nat.double(Nat.div n))n).
+    (Nat.leb(Nat.double(Nat.div2 n) + 1)n).  
+
+Example odd1 : esImpar 2 = false.
+Proof. simpl. reflexivity. Qed.
+Example odd2 : esImpar 5 = true.
+Proof. simpl. reflexivity. Qed.
+Compute esImpar 5.
+Compute esImpar 17.
+Compute esImpar 16.
+
+(*########################## Punto 10 ##########################*)
+
+Definition punto10 (n: nat) : nat := 
+    match esImpar n with
+    | true => n + 5
+    | false => n * 3
+    end.
+
+(*########################## Punto 11 ##########################*)
+
+Definition punto11 (g: nat -> nat) (f: nat -> nat) (t: nat * nat) : (nat * nat) :=
+    match t with
+    | (a,b) => (f(a + b), g(a * b))
+    end.
+
+(*########################## Punto 12 ##########################*)
+
+Definition punto12 (t : nat*nat) (f: nat -> nat)
+    match t with
+    | (a, b) => 
