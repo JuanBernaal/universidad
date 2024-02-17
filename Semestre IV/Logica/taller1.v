@@ -83,8 +83,12 @@ Proof. simpl. reflexivity. Qed.
 Definition componerFunciones {A B C : Type} (f : A -> B) (g : C -> A) : C -> B :=
     fun x => f (g x).
 
+(*########################## Punto 8 ##########################*)
+
+Definition parejas (t: (nat*nat)) : (nat*nat) :=
+    (a, b) => (a+b, b-a).
+
 (*########################## Punto 9 ##########################*)
 
 Definition esImpar (n :nat) : bool :=
     negb(Nat.leb(Nat.double(Nat.div n))n).
-    
