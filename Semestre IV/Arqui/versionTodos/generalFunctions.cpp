@@ -70,21 +70,19 @@ bool isDec( char act ) {
 	return res;
 }
 bool isHex( char act ) {
-	bool res = isDec( act ) || ( 'A' <= act && act <= 'F' );
+	bool res = isDec( act ) || ( 'A' <= act && act <= 'F' ) || ( 'a' <= act && act <= 'f' );
 	return res;
 }
 bool isFunction( const string &act, bool ( *fun ) ( char ) ) {
 	bool res = true;
 	int i;
 	for ( i = 0 ; i < act.size() && res ; ++i ) res = fun( act[i] );
-	if ( !res ) fprintf( stderr, "Salio en %d con |%c|\n", i, act[i] );
 	return res;
 }
 bool isFunction( const string &act, bool ( *fun ) ( char ), int strt ) {
 	bool res = true;
 	int i;
 	for ( i = strt ; i < act.size() && res ; ++i ) res = fun( act[i] );
-	if ( !res ) fprintf( stderr, "Salio en %d con |%c|\n", i, act[i] );
 	return res;
 }
 

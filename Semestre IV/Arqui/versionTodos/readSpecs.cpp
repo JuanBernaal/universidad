@@ -60,6 +60,7 @@ void read_instruction_specs( const vector<string> &dynamic_inst, const vector<st
 	int index = 0;
 	while ( index < dynamic_inst.size() ) {
 		if ( dynamic_inst[index] == "reg" ) {
+
 			typeAssert	( index+3 < dynamic_inst.size(), dynamic_inst, "dynamic_inst" );
 
 			tokenAssert( dynamic_inst[index+1] == "(", dynamic_inst, index+1 );
@@ -153,10 +154,11 @@ void read_instructions() {
 		instructions[inst] = Instruction( inst_type );
 
 		tokens = tokenize_line( rawData );
-		while ( tokens[0] != "end" ) {
-			read_instruction_specs( tokens, tokenize_line( rawData ), inst_type, inst );
-			tokens = tokenize_line( rawData );
-		}
+		read_instruction_specs( tokens, tokenize_line( rawData ), inst_type, inst );
+
+		tokens = tokenize_line( rawData );
+
+		typeAssert( tokens[0] == "end", tokens, "instruction" );
 		typeAssert( tokens.size() == 1, tokens, "instruction" );
 		
 		tokens = tokenize_line( rawData );

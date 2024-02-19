@@ -41,7 +41,6 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 	int ind, number, tope, i;
 	while ( tokens.size() > 0 ) {
 		if ( tokens.size() == 2 && isFunction( tokens[0], isChar ) && tokens[1] == ":" ) {
-			typeAssert( !tags.count( tokens[0] ), tokens, "tag" );
 			tags[tokens[0]] = instructionIndex;
 			continue;
 		}
@@ -49,14 +48,19 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 		ind = 1;
 		act = bitset<InstructionBits>();
 		for ( list<ArgumentType>::iterator it = instructions[tokens[0]].dynamic_inst.begin() ; it != instructions[tokens[0]].dynamic_inst.end() ; ++it ) {
-			if ( !( ind < tokens.size() && ( it->type != REGISTER || tokens[ind] == "$" ) && ( it->type != TOKEN || tokens[ind] == it->correspondence ) && ( it->type != TAG || isFunction( tokens[ind], isChar ) ) && ( it->type == PSEUDOTAG || isFunction( tokens[ind], isChar ) )   ) ) {
-				typeAssert( false, tokens, tokens[0] );
+			if ( !( ind < tokens.size() && ( it->type != REGISTER || tokens[ind] == "$" ) && ( it->type != TOKEN || tokens[ind] == it->correspondence ) && ( it->type != TAG || isFunction( tokens[ind], isChar ) ) && ( it->type != PSEUDOTAG || isFunction( tokens[ind], isChar ) )   ) ) {
+				if ( ind < tokens.size() ) {
+					tokenAssert( false, tokens, ind );
+				} else  {
+					typeAssert( false, tokens, tokens[0] );
+				}
 			} else if ( it->type == REGISTER ) {
 				typeAssert( ind+1 < tokens.size(), tokens, "register_name" );
 				typeAssert( registers.count( tokens[ind+1] ), tokens, "register_name" );
 				number = registers[tokens[ind+1]];
-				tope = types[instructions[tokens[0]].type][it->correspondence].start + types[instructions[tokens[0]].type][it->correspondence].bits;
-				for ( i = types[instructions[tokens[0]].type][it->correspondence].start ; i < tope ; ++i ) {
+				TypeSpec tmp = types[instructions[tokens[0]].type][it->correspondence];
+				tope = tmp.start;
+				for ( i = tmp.start + tmp.bits-1 ; i >= tope ; --i ) {
 					act[i] = (number&1);
 					number >>= 1;
 				}
@@ -68,8 +72,9 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 			} else if ( it->type == INMEDIATE ) {
 				tokenAssert( isNumber( tokens[ind] ), tokens, ind );
 				number = convertStringToNum( tokens[ind] );
-				tope = types[instructions[tokens[0]].type][it->correspondence].start + types[instructions[tokens[0]].type][it->correspondence].bits;
-				for ( i = types[instructions[tokens[0]].type][it->correspondence].start ; i <= tope ; ++i ) {
+				TypeSpec tmp = types[instructions[tokens[0]].type][it->correspondence];
+				tope = tmp.start;
+				for ( i = tmp.start + tmp.bits-1 ; i >= tope ; --i ) {
 					act[i] = (number&1);
 					number >>= 1;
 				}
@@ -84,8 +89,8 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 		for ( list<pair<string,int>>::iterator it = (instructions[tokens[0]].static_inst).begin() ; it != (instructions[tokens[0]].static_inst).end() ; ++it ) {
 			number = it->second;
 			TypeSpec tmp = types[instructions[tokens[0]].type][it->first];
-			tope = tmp.start + tmp.bits;
-			for ( i = tmp.start ; i <= tope ; ++i ) {
+			tope = tmp.start;
+			for ( i = tmp.start + tmp.bits-1 ; i >= tope ; --i ) {
 				act[i] = (number&1);
 				number >>= 1;
 			}
@@ -111,16 +116,22 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 			personalizedThrow();
 		}
 		number = tags[allTags.front().tagName];
-		if ( allTags.front().type == PSEUDOTAG ) {
+		if ( allTags.front().type == TAG ) {
 			number += startOfProgram;
+		} else if ( allTags.front().type == PSEUDOTAG ) {
+			number = number - allTags.front().instructionIndex;
 		}
 		number >>= 2;
 
 		TypeSpec tmp =  types[allTags.front().typeName][allTags.front().typeSpecName];
-		tope = tmp.start + tmp.bits;
-		for ( i = tmp.start ; i <= tope ; ++i ) {
+		tope = tmp.start;
+		if ( allTags.front().type == PSEUDOTAG ) ++tope;
+		for ( i = tmp.start + tmp.bits-1 ; i >= tope ; --i ) {
 			act[i] = (number&1);
 			number >>= 1;
+		}
+		if ( allTags.front().type == PSEUDOTAG ) {
+			act[tmp.start] = ( tags[allTags.front().tagName] < allTags.front().instructionIndex );
 		}
 
 		allTags.pop_front();

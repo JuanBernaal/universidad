@@ -1,8 +1,8 @@
 .type
 
-R : ( opcode 6 ) ( rs 5 ) ( rt 5 ) ( rd 5 ) ( shamt 5 ) ( funct 5 )
-I : ( opcode 6 ) ( rd 5 ) ( rs 5 ) ( inmediate 15 )
-J : ( opcode 6 ) ( address 25 )
+R : ( opcode 6 ) ( rs 5 ) ( rt 5 ) ( rd 5 ) ( shamt 5 ) ( funct 6 )
+I : ( opcode 6 ) ( rs 5 ) ( rt 5 ) ( inmediate 16 )
+J : ( opcode 6 ) ( address 26 )
 
 .instruction
 
@@ -22,7 +22,7 @@ opcode -> 0x9 | |
 end
 
 addu  R
-reg( rd ), reg( rs ), reg( st )
+reg( rd ), reg( rs ), reg( rt )
 opcode -> 0 | shamt -> 0 | funct -> 0x20 | |
 end 
 
@@ -32,7 +32,7 @@ opcode -> 0 | shamt -> 0 | funct -> 0x24 | |
 end
 
 andi I
-reg( rt ), reg ( rs ), inm( inmediate )
+reg( rt ), reg( rs ), inm( inmediate )
 opcode -> 0xc | |
 end
 
@@ -43,7 +43,7 @@ end
 
 bne I
 reg( rt ), reg( rs ), pseudoTag( inmediate )
-pocode -> 0x5 | |
+opcode -> 0x5 | |
 end
 
 
@@ -52,21 +52,23 @@ tag ( address )
 opcode -> 0x2 | |
 end 
 
-jal
+jal J
 tag ( address )
 opcode -> 0x3  | |
 end
 
-jr
+jr R
+reg( rs )
+opcode -> 0 | shamt -> 0 | funct -> 0x08 ||
+end
+
+;lbu
 
 
-lbu
+;lhu
 
 
-lhu
-
-
-ll
+;ll
 
 
 lui I
@@ -100,7 +102,7 @@ end
 
 slt R
 reg( rd ), reg( rs ), reg( rt )
-opcode -> 0 | shamt -> 0 | func -> ox2a | |
+opcode -> 0 | shamt -> 0 | funct -> 0x2a | |
 end
 
 
@@ -118,19 +120,19 @@ end
 
 sltu R
 reg( rd ), reg( rs ), reg( rt )
-opcode -> 0 | shamt -> 0 | func -> ox2b | |
+opcode -> 0 | shamt -> 0 | funct -> 0x2b | |
 end
 
 
 sll R
 reg( rd ), reg( rt ), inm( shamt )
-opcode -> 0 | func -> 0 | |
+opcode -> 0 | funct -> 0 | |
 end
 
 
 srl R
 reg( rd ), reg( rt ), inm( shamt )
-opcode -> 0 | func -> 0x02 | |
+opcode -> 0 | funct -> 0x02 | |
 end
 
 
@@ -161,64 +163,64 @@ end
 
 sub R
 reg( rd ), reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x22 | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x22 | |
 end
 
 
 subu R
 reg( rd ), reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x23 | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x23 | |
 end
 
 
 div R
 reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x1a | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x1a | |
 end
 
 divu R
 reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x1b | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x1b | |
 end
 
-lwc1 I
-reg( rt ), reg( rs ), inm( inmediate )
-opcode -> 0x31 | |
-end
+;lwc1 I
+;reg( rt ), reg( rs ), inm( inmediate )
+;opcode -> 0x31 | |
+;end
 
-ldc1 I
-reg( rt ), reg( rs ), inm( inmediate )
-opcode -> 0x35 | |
-end
+;ldc1 I
+;reg( rt ), reg( rs ), inm( inmediate )
+;opcode -> 0x35 | |
+;end
 
 mfhi R
 reg( rd )
-opcode -> 0 |  shamt -> 0 | func -> 0x10| |
+opcode -> 0 |  shamt -> 0 | funct -> 0x10| |
 end
 
 mflo R
 reg( rd )
-opcode -> 0 |  shamt -> 0 | func -> 0x12 | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x12 | |
 end
 
 mult R
 reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x18 | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x18 | |
 end
 
 multu R
 reg( rs ), reg( rt )
-opcode -> 0 |  shamt -> 0 | func -> 0x19 | |
+opcode -> 0 |  shamt -> 0 | funct -> 0x19 | |
 end
 
 sra R
 reg( rd ), reg( rt ), inm( shamt )
-opcode -> 0 | func -> 0x3 | |
+opcode -> 0 | funct -> 0x3 | |
 end
 
-swc1 I
-reg( rt ), inm( inmediate ) ( reg( rs ) )
-opcode -> ox39 | |
+;swc1 I
+;reg( rt ), inm( inmediate ) ( reg( rs ) )
+;opcode -> ox39 | |
 
 
 .register
@@ -249,7 +251,7 @@ $s5 -> 21
 $s6 -> 22
 $s7 -> 23
 $t8 -> 24
-$t0 -> 25
+$t9 -> 25
 $k0 -> 26
 $k1 -> 27
 $gp -> 28
