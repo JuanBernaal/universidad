@@ -42,21 +42,18 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 	while ( tokens.size() > 0 ) {
 		if ( tokens.size() == 2 && isFunction( tokens[0], isChar ) && tokens[1] == ":" ) {
 			tags[tokens[0]] = instructionIndex;
+			tokens = tokenize_line( rawAssemble );
 			continue;
 		}
 		tokenAssert( instructions.count( tokens[0] ), tokens, 0 );
 		ind = 1;
 		act = bitset<InstructionBits>();
 		for ( list<ArgumentType>::iterator it = instructions[tokens[0]].dynamic_inst.begin() ; it != instructions[tokens[0]].dynamic_inst.end() ; ++it ) {
-			if ( !( ind < tokens.size() && ( it->type != REGISTER || tokens[ind] == "$" ) && ( it->type != TOKEN || tokens[ind] == it->correspondence ) && ( it->type != TAG || isFunction( tokens[ind], isChar ) ) && ( it->type != PSEUDOTAG || isFunction( tokens[ind], isChar ) )   ) ) {
-				if ( ind < tokens.size() ) {
-					tokenAssert( false, tokens, ind );
-				} else  {
-					typeAssert( false, tokens, tokens[0] );
-				}
-			} else if ( it->type == REGISTER ) {
+			typeAssert( ind < tokens.size(), tokens, "instruction" );
+			if ( it->type == REGISTER ) {
+				tokenAssert( tokens[ind] == "$", tokens, ind );
 				typeAssert( ind+1 < tokens.size(), tokens, "register_name" );
-				typeAssert( registers.count( tokens[ind+1] ), tokens, "register_name" );
+				typeAssert( registers.count( tokens[ind+1] ), tokens, tokens[ind+1] );
 				number = registers[tokens[ind+1]];
 				TypeSpec tmp = types[instructions[tokens[0]].type][it->correspondence];
 				tope = tmp.start;
@@ -70,19 +67,35 @@ vector<bitset<InstructionBits>> assemble( char *inFile ) {
 				}
 				++ind; // uno extra porque lo compone el token de '$' y el nombre del registro
 			} else if ( it->type == INMEDIATE ) {
+				bool sign = true;
+				if ( tokens[ind] == "-" ) {
+					sign = false; // para leer los negativos
+					typeAssert( ind+1 < tokens.size(), tokens, "Negative_inmediate" );
+					++ind;
+				}
 				tokenAssert( isNumber( tokens[ind] ), tokens, ind );
 				number = convertStringToNum( tokens[ind] );
+				number = ( sign ) ? number : (~number)+1;
+				
 				TypeSpec tmp = types[instructions[tokens[0]].type][it->correspondence];
 				tope = tmp.start;
-				for ( i = tmp.start + tmp.bits-1 ; i >= tope ; --i ) {
+				for ( i = tmp.start + tmp.bits-1 ; i > tope ; --i ) {
 					act[i] = (number&1);
 					number >>= 1;
 				}
-				tokenAssert( number == 0, tokens, ind );
+				if ( !sign ) {
+					act[tope] = !sign;
+				} else {
+					act[tope] = (number&1);
+				}
 			} else if ( it->type == TAG ) {
+				tokenAssert( isFunction( tokens[ind], isChar ), tokens, ind );
 				allTags.push_back( TagPlaceHolder( tokens[ind], instructions[tokens[0]].type, it->correspondence, instructionIndex, TAG ) );
 			} else if ( it->type == PSEUDOTAG ) {
+				tokenAssert( isFunction( tokens[ind], isChar ), tokens, ind );
 				allTags.push_back( TagPlaceHolder( tokens[ind], instructions[tokens[0]].type, it->correspondence, instructionIndex, PSEUDOTAG ) );
+			} else if ( it->type == TOKEN ) {
+				tokenAssert( tokens[ind] == it->correspondence, tokens, ind );
 			}
 			++ind;
 		}

@@ -5,8 +5,11 @@ The actual assembler is to be written in the file 'assembler.py'
 */
 
 #include "myAssembler.cpp"
+#include <cstring>
 
 void assemble( char *, char *, int );
+void dev_testing( char *input);
+
 
 void printHelp(){
     printf( "It receives as a predetermined input a file with assembly code from the MIPS 32-bit architecture\n");
@@ -19,6 +22,9 @@ void printHelp(){
     printf( "The assembler version can be consulted using the command '-v' or '--version'\n");
     printf( "				-v\n");
     printf( "				--version\n\n" );
+    printf( "The assembler output can be printed through the console using the command '-p' or '--print'\n");
+    printf( "				-p\n");
+    printf( "				--print\n\n" );
     printf( "This help message can be consulted using the command '-h' or '--help'\n");
     printf( "				-h\n" );
     printf( "				--help\n" );
@@ -28,10 +34,11 @@ void printVersion() {
 	printf( "This is the version 1.0 of the assembler.\n" );
     printf( "It was made to translate code in the MIPS 32-bit architecture.\n" );
     printf( "Credits to:\n" );
-    printf( "   * Benjamin Ortiz\n" );
-    printf( "   * Marco Riascos\n" );
-    printf( "   * Juan David Bernal\n" );
     printf( "   * Oscar vargas\n" );
+    printf( "   * Benjamin Ortiz\n" );
+    printf( "   * Juan David Bernal\n" );
+    printf( "   * Marco Riascos\n" );
+    
 }
 
 
@@ -45,19 +52,21 @@ void printInstructions( const vector<bitset<InstructionBits>> &prog ) {
     }
 }
 
-void main2( int argc, char * argv[] ){
+int main( int argc, char * argv[] ){
+    //dev_testing( argv[1] ); return 0; //para hacer las pruebas
+
     char StandardOuput[] = "a.exe";
 	int i = 1, startAdress = 0;
 	int inName = -1, outName = -1;
-	bool flag = true;
+	bool flag = true, file = true;
 	while ( flag && i < argc ) {
-		if ( argv[i] == "-v" || argv[i] == "--version" ) {
+		if ( strcmp( argv[i], "-v" ) == 0 || strcmp( argv[i], "--version" ) == 0 ) {
 			printVersion();
 			flag = false;
-		} else if ( argv[i] == "-h" || argv[i] == "--help" ) {
+		} else if ( strcmp( argv[i], "-h" ) == 0 || strcmp( argv[i],  "--help" ) == 0 ) {
 			printHelp();
 			flag = false;
-		} else if ( argv[i] == "-o" or argv[i] == "--output" ) {
+		} else if ( strcmp( argv[i],  "-o" ) == 0 || strcmp( argv[i], "--output" ) == 0 ) {
 			i += 1;
 			if ( i >= argc ){
 				printf( "Error: The command -o doesn't have the required info ( No name was especified ).\n" );
@@ -65,7 +74,7 @@ void main2( int argc, char * argv[] ){
             } else {
 				outName = i;
             }
-        } else if ( argv[i] == "-s" || argv[i] == "--start" ) {
+        } else if ( strcmp( argv[i], "-s" ) == 0 || strcmp( argv[i], "--start" ) == 0 ) {
             i += 1;
             if ( i >= argc ) {
                 printf( "Error: The command -s doesn't have the required info ( No address was especified ).\n" );
@@ -75,6 +84,8 @@ void main2( int argc, char * argv[] ){
                 for ( int k = 0 ; argv[i][k] != '\0' ; ++k ) tmp.push_back( argv[i][k] );
                 startAdress = convertStringToNum( tmp );
             }
+        } else if ( strcmp( argv[i], "-p" ) == 0 || strcmp( argv[i], "--print" ) == 0 ) {
+            file = false;
         } else {
 			inName = i;
         }
@@ -96,9 +107,10 @@ void main2( int argc, char * argv[] ){
         } else {
             output = StandardOuput;
         }
-		assemble( argv[inName], output, startAdress ); // hacer esto
+		assemble( argv[inName], ( file ) ? output : NULL, startAdress ); // hacer esto
     }
 }
+return 0;
 }
 void assemble( char *inputFile, char *outputFile, int programStart ) {
 	EndOfFile = false;
@@ -108,9 +120,13 @@ void assemble( char *inputFile, char *outputFile, int programStart ) {
     startOfProgram = programStart;
 	vector<bitset<InstructionBits>> interm = assemble( inputFile );
 
+    if ( outputFile == NULL ) {
+        printInstructions( interm );
+        return;
+    }
+
     FILE *output = fopen( outputFile, "wb" );
 	personalizedThrow = CloseAbruptly( output );
-
 
     unsigned int act = 0;
     for ( int i = 0; i < interm.size() ; ++i ) {
@@ -125,7 +141,7 @@ void assemble( char *inputFile, char *outputFile, int programStart ) {
 	personalizedThrow = CloseAbruptly( NULL );
 }
 
-int main( int argc, char * argv[]) {
+void dev_testing( char *input) {
 
     printf( "Comienza a leer las instrucciones en dummy.txt\n" );
 	EndOfFile = false;
@@ -137,7 +153,7 @@ int main( int argc, char * argv[]) {
     startOfProgram = 0;
 
 	printf( "entra a assemble\n" );
-	vector<bitset<InstructionBits>> interm = assemble( argv[1] );
+	vector<bitset<InstructionBits>> interm = assemble( input );
 	printf( "sale con %d\n", interm.size() );
     for ( int i = 0; i < interm.size() ; ++i ) {
         string tmp = interm[i].to_string();
@@ -146,5 +162,4 @@ int main( int argc, char * argv[]) {
         }
         printf( "\n" );
     }
-	return 0;
 }

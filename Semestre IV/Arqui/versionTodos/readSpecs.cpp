@@ -177,7 +177,7 @@ void read_instructions() {
 		tokenAssert( tokens[3] == ">", tokens, 3 );
 		tokenAssert( isNumber( tokens[4] ), tokens, 4 );
 
-		registers[tokens[1]] = toDecNum( tokens[4] );
+		registers[tokens[1]] = convertStringToNum( tokens[4] );
 
 		tokens = tokenize_line( rawData );
 	}
