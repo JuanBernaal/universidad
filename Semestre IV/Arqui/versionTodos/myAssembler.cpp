@@ -19,6 +19,8 @@ map<string, int> tags;
 
 #define InstructionBits 32
 
+/* The class TagPlaceHolder represents a placeholder for a tag with various attributes such as tag
+name, type names, instruction index, and type. */
 class TagPlaceHolder {
 public:
 	string tagName;
@@ -28,6 +30,16 @@ public:
 	TagPlaceHolder( const string & tn, const string &tpn, const string &tsn, int ii, int type ) : tagName( tn ), typeName( tpn ), typeSpecName(tsn), instructionIndex(ii), type( type ) {};
 };
 
+/**
+ * The function `assemble` reads an input file, processes assembly instructions, and generates a vector
+ * of bitsets representing the assembled instructions.
+ * 
+ * @param inFile The function `assemble` reads instructions from a file specified by the `inFile`
+ * parameter, processes them, and returns a vector of bitsets representing the assembled instructions.
+ * 
+ * @return The function `assemble` returns a vector of bitsets, where each bitset represents an
+ * assembled instruction.
+ */
 vector<bitset<InstructionBits>> assemble( char *inFile ) {
 	FILE *rawAssemble = fopen( inFile, "r" );
 	personalizedThrow = CloseAbruptly( rawAssemble );

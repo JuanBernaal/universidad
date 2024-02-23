@@ -10,6 +10,8 @@
 #define TAG 3
 #define PSEUDOTAG 4
 
+/* The class `ArgumentType` in C++ represents a type of argument with an integer type and a
+corresponding string. */
 class ArgumentType {
 public:
 	int type;
@@ -17,6 +19,8 @@ public:
 	ArgumentType( int t, const string &cor ) : type( t ), correspondence( cor  ) {};
 };
 
+/* The TypeSpec class in C++ represents a type specification with attributes for bits and start
+position. */
 class TypeSpec {
 public:
 	int bits, start;
@@ -24,6 +28,8 @@ public:
 	TypeSpec( int b, int s ) : bits( b ) , start( s ) {};
 };
 
+/* The class `Instruction` in C++ contains lists of static and dynamic instructions along with a type
+string. */
 class Instruction {
 public:
 	list<pair<string,int>> static_inst;
@@ -37,6 +43,21 @@ map<string, map<string,TypeSpec>> types;
 map<string, Instruction> instructions;
 map<string,int> registers;
 
+/**
+ * The function `read_type_spec` reads and validates a type specification from a vector of tokens in
+ * C++.
+ * 
+ * @param tokens The `tokens` parameter is a vector of strings that contains the input tokens to be
+ * processed by the `read_type_spec` function.
+ * @param index The `index` parameter in the `read_type_spec` function represents the current position
+ * in the vector `tokens` where the function is reading and processing tokens. It is used to access
+ * specific tokens in the vector during the parsing process.
+ * @param start The `start` parameter in the `read_type_spec` function is used to indicate the starting
+ * index of the current token being processed within the vector of tokens. It helps in keeping track of
+ * the position in the vector while parsing and validating the tokens.
+ * 
+ * @return The function `read_type_spec` is returning an integer value `tmp`.
+ */
 int read_type_spec( const vector<string> &tokens, int index, int start ) {
 	typeAssert( index+3 < tokens.size(), tokens, "type_spec" );
 
@@ -56,6 +77,24 @@ int read_type_spec( const vector<string> &tokens, int index, int start ) {
 Ampliar para TAG y PSEUDOTAG
 */
 
+/**
+ * The function `read_instruction_specs` processes dynamic and static instruction specifications for a
+ * given instruction type and name.
+ * 
+ * @param dynamic_inst The `dynamic_inst` parameter is a vector of strings that contains dynamic
+ * instruction specifications. These specifications define the type and format of arguments for a
+ * particular instruction.
+ * @param static_inst The `static_inst` parameter in the `read_instruction_specs` function is a vector
+ * of strings that contains static instructions for a particular type of instruction. These static
+ * instructions are parsed and processed within the function to extract relevant information for
+ * further processing.
+ * @param type_inst The `type_inst` parameter in the `read_instruction_specs` function represents the
+ * type of instruction being processed. It is used to determine the specific type of instruction being
+ * read and to validate certain tokens based on the type of instruction.
+ * @param inst The `inst` parameter in the `read_instruction_specs` function represents the specific
+ * instruction being processed. It is used to store information about the dynamic and static components
+ * of the instruction in the `instructions` data structure.
+ */
 void read_instruction_specs( const vector<string> &dynamic_inst, const vector<string> &static_inst, const string &type_inst, const string &inst ) {
 	int index = 0;
 	while ( index < dynamic_inst.size() ) {
@@ -120,6 +159,13 @@ void read_instruction_specs( const vector<string> &dynamic_inst, const vector<st
 	}
 }
 
+/**
+ * The function `read_instructions` reads and processes different segments of data from a file based on
+ * specific tags and formats.
+ * 
+ * @return This function does not have a return value as it is declared as void. It reads instructions
+ * from a file and processes them accordingly, but it does not return any value.
+ */
 void read_instructions() {
 	FILE *rawData = fopen( "dummy.txt", "r" );
 	personalizedThrow = CloseAbruptly( rawData );
@@ -189,6 +235,9 @@ void read_instructions() {
 }
 
 
+/**
+ * The debug function prints information about types, instructions, and registers in a C++ program.
+ */
 
 void debug() {
 	printf( "________________________________the types:\n" );

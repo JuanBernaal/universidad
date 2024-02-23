@@ -11,6 +11,10 @@ void assemble( char *, char *, int );
 void dev_testing( char *input);
 
 
+/**
+ * The function `printHelp` provides a detailed description of the command-line options for a MIPS
+ * 32-bit architecture assembly code assembler.
+ */
 void printHelp(){
     printf( "It receives as a predetermined input a file with assembly code from the MIPS 32-bit architecture\n");
     printf( "An output file can be especified using the comand '-o' or '--output'\n");
@@ -30,6 +34,10 @@ void printHelp(){
     printf( "				--help\n" );
 }
 
+/**
+ * The function `printVersion` prints information about the version and creators of an assembler
+ * program for translating code in the MIPS 32-bit architecture.
+ */
 void printVersion() {
 	printf( "This is the version 1.0 of the assembler.\n" );
     printf( "It was made to translate code in the MIPS 32-bit architecture.\n" );
@@ -42,6 +50,13 @@ void printVersion() {
 }
 
 
+/**
+ * The function `printInstructions` prints out the binary representation of instructions stored in a
+ * vector of bitsets in reverse order.
+ * 
+ * @param prog A vector of bitsets representing instructions, where each bitset contains a fixed number
+ * of bits (InstructionBits).
+ */
 void printInstructions( const vector<bitset<InstructionBits>> &prog ) {
     for ( int i = 0; i < prog.size() ; ++i ) {
         string tmp = prog[i].to_string();
@@ -52,6 +67,18 @@ void printInstructions( const vector<bitset<InstructionBits>> &prog ) {
     }
 }
 
+/**
+ * The main function in C++ parses command line arguments to assemble a file and output the result.
+ * 
+ * @param argc `argc` is the argument count, which represents the number of arguments passed to the
+ * program when it is executed. In the context of the `main` function in C or C++, `argc` holds the
+ * number of command-line arguments including the name of the program itself.
+ * @param argv argv is an array of strings that contains the command-line arguments passed to the
+ * program when it is executed. In the provided code snippet, the main function is processing these
+ * arguments to determine the actions to be taken by the program.
+ * 
+ * @return The `main` function is returning an integer value of 0.
+ */
 int main( int argc, char * argv[] ){
     //dev_testing( argv[1] ); return 0; //para hacer las pruebas
 
@@ -112,6 +139,27 @@ int main( int argc, char * argv[] ){
 }
 return 0;
 }
+/**
+ * The function `assemble` reads instructions from an input file, assembles them into binary format,
+ * and writes the output to a specified file or prints it if no output file is provided.
+ * 
+ * @param inputFile The `inputFile` parameter in the `assemble` function is a pointer to a character
+ * array that represents the input file from which instructions are read for assembling.
+ * @param outputFile The `outputFile` parameter in the `assemble` function is a pointer to a character
+ * array that specifies the name of the output file where the assembled instructions will be written.
+ * If `outputFile` is `NULL`, the assembled instructions will be printed to the console instead of
+ * being written to a file
+ * @param programStart The `programStart` parameter in the `assemble` function is used to specify the
+ * starting address of the program in memory. This parameter indicates where the program's instructions
+ * should be loaded into memory for execution. It helps in determining the memory location from which
+ * the program's execution should begin.
+ * 
+ * @return The function `assemble` does not have a return type specified, so it does not explicitly
+ * return anything. However, it performs various operations like reading instructions, assembling
+ * input, printing instructions, and writing to an output file based on the provided parameters. The
+ * function may return void or it may have side effects like writing to a file or printing
+ * instructions.
+ */
 void assemble( char *inputFile, char *outputFile, int programStart ) {
 	EndOfFile = false;
 	read_instructions();
@@ -141,6 +189,14 @@ void assemble( char *inputFile, char *outputFile, int programStart ) {
 	personalizedThrow = CloseAbruptly( NULL );
 }
 
+/**
+ * The function `dev_testing` reads instructions from a file, assembles them, and prints the resulting
+ * bitset values.
+ * 
+ * @param input The `dev_testing` function seems to be reading instructions from a file named
+ * `dummy.txt`, processing them, and then assembling them into a vector of bitsets. The `assemble`
+ * function is likely responsible for converting the input into a binary representation.
+ */
 void dev_testing( char *input) {
 
     printf( "Comienza a leer las instrucciones en dummy.txt\n" );
