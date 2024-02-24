@@ -1,4 +1,3 @@
-
 #ifndef GENERAL_FUNCTIONS
 #define GENERAL_FUNCTIONS
 
