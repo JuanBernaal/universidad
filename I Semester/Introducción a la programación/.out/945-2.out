@@ -1,0 +1,86 @@
+: : 3 : : : :
+7 2 7 9 7 2 8
+=============
+1 2 3 4 5 6 7
+
+cargo weight: 45
+unused weight: 99
+unloaded weight: 0
+
+5 1 1 2
+=======
+1 2 3 4
+
+cargo weight: 9
+unused weight: 65
+unloaded weight: 0
+
+: : 8 :
+=======
+1 2 3 4
+
+cargo weight: 8
+unused weight: 79
+unloaded weight: 0
+
+: 5 1
+6 8 7
+=====
+1 2 3
+
+cargo weight: 27
+unused weight: 62
+unloaded weight: 13
+
+: : : : 5
+=========
+1 2 3 4 5
+
+cargo weight: 5
+unused weight: 112
+unloaded weight: 0
+
+8 : :
+1 8 2
+2 1 2
+=====
+1 2 3
+
+cargo weight: 24
+unused weight: 34
+unloaded weight: 0
+
+6 4 3
+=====
+1 2 3
+
+cargo weight: 13
+unused weight: 68
+unloaded weight: 0
+
+: 4 :
+7 1 6
+=====
+1 2 3
+
+cargo weight: 18
+unused weight: 54
+unloaded weight: 0
+
+7 9 : 6
+=======
+1 2 3 4
+
+cargo weight: 22
+unused weight: 82
+unloaded weight: 0
+
+3
+9
+=
+1
+
+cargo weight: 12
+unused weight: 33
+unloaded weight: 0
+

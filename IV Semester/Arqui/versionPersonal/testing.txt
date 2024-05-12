@@ -1,0 +1,2 @@
+add $t0, $zero, $t1 ; esta es una prueba sencilla
+

@@ -1,0 +1,30 @@
+<id> : <char> <id> | nil
+<char> : 'a' | 'b' | ... | 'A' | 'B' | ... | 'Z'
+<num> : <num> <num> | nil | '0' | '1' | '2' | ... | '9'
+<hexNum> : <num> | 'A' | 'B' | 'c' |  'D' | 'F' 
+
+<segment_name> : '.'<id>
+
+.type
+
+<type> : <id> ':' <type_spec> '\n' <type> | nil
+<type_spec> : '(' <id> <num> ')' <type_spec> | nil
+
+.instruction
+
+// nota: el primer id es el nombre de la instruccion, el segundo es el tipo
+
+<instruction> : <id> <id> '\n' <inst_reading> '\n' 'end' '\n'
+<inst_reading> : <dinamic_inst> '\n' <static_inst> '\n' | <inst_reading> | nil
+<dinamic_inst> : <fullchar> | 'reg' '(' <id> ')' | 'inm' '(' <id> ')' | <dinamic_inst> <dinamic_inst> | nil
+<static_inst> : <id> '->' <hexNum> '|' <static_inst> | '|' nil
+<fullchar> : <char> | '(' | ') | '!' | ...
+
+// nota: va a tomar los <fullchar> como necesarios para la lectura de la instruccion
+
+.register
+
+<register> : <reg_id> '->' <num> '\n' <register> | nil
+<reg_id> : '$' <id>
+
+.end

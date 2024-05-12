@@ -1,0 +1,39 @@
+lui $s0, 0x1000
+ori $s0, $s0, 0xF000
+lw $a0, 0($s0)
+lw $a1, 4($gp)
+Hola:
+addi $sp, $sp, -4
+sw $ra, 0($sp)
+jal Potencia
+sw $v0, 12($s0)
+mult $v0, $a1
+mflo $t1
+add $s1, $t1, $a0
+sw $s1, 8($s0)
+lw $ra, 0($sp)
+addi $sp, $sp, 4
+jr $ra
+Potencia:
+addi $sp, $sp, -8
+sw $a1, 4($sp)
+sw $ra, 0($sp)
+addi $t0, $0, 1
+slt $t0, $a1, $t0
+beq $t0, $0, else
+addi $v0, $0, 1
+addi $sp, $sp, 8
+jr $ra
+else:
+addi $a1, $a1, -1
+jal Potencia
+lw $ra, 0($sp)
+lw $a1, 4($sp)
+addi $sp, $sp, 8
+mult $v0, $a0
+bne $a0, $v1, Potencia
+jal Hola
+mflo $v0
+sub $gp, $t1, $s1
+slti $0, $a2, -200
+jr $ra

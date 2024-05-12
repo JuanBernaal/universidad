@@ -1,0 +1,587 @@
+Juan David Bernal Maldonado
+Entrega 1 Proyecto
+Introducción a la programación
+Profesor: Carlos Alberto Ramírez Restrepo
+Septiembre del 2022
+
+En este documento corresponde a la Entrega 1 del proyecto de Introducción a la
+Programación del primer semestre del periodo de tiempo 2022-2. El problema dado a resolver
+corresponde al problema 945 Loading a Cargo Ship de la plataforma Online Judge
+(https://onlinejudge.org/external/9/945.pdf).
+
+Descripción Problema UVA 945 – Loading a Cargo Ship. 
+
+En este problema se presenta la necesidad de reparar la computadora (CRC) de un barco
+de carga, la cual es esencial porque es la que se encarga de distribuir los paquetes que se deben
+cargar al barco entre los diferentes contenedores disponibles, sin embargo, la computadora no tenia
+el respaldo de seguridad, por lo tanto, se te asigna la misión de reprogramar la computadora.
+
+En primer lugar, se debe de tener en cuenta que, la computadora está conectada a un cinturón que
+transporta los paquetes a los contenedores. Para esto se tienen unas reglas que se deben de
+considerar:
+
+- El máximo de contenedores es 9, cada uno puede tener diferentes capacidades.
+- Los contenedores se deben numerar del 1 al 9.
+- El máximo peso que puede llevar cada contenedor es de 999 toneladas.
+- El máximo de peso que puede tener cada paquete es 9 toneladas.
+- El barco puede cargar como máximo 999 paquetes.
+
+El programa finalizara cuando el cinturón no encuentre un espacio disponible para el siguiente
+paquete en el orden, esto lo identifica después de evaluar las siguientes condiciones para saber en
+qué posición se debe de ubicar cada paquete:
+
+1. Dar prioridad a los contenedores que tengan menos paquetes.
+2. Elegir únicamente el contenedor que tenga la mayor capacidad actual disponible.
+3. Elegir el contenedor que tenga el menor número.
+4. Si el contenedor seleccionado no puede cargar el paquete, el proceso finalizará.
+        
+Para la solución de este problema se requiere que se ingresen algunos datos de entrada, primero se
+debe ingresar la cantidad de contenedores que hay disponibles y posteriormente ingresar su
+respectiva capacidad por separado, luego se recibe el dato que indica la cantidad de paquetes que
+hay para cargar, seguido del peso de cada uno de los paquetes por separado.
+
+Los resultados posibles son:
+
+Orden de los paquetes según las condiciones dadas.
+==================================================
+Cantidad de contenedores disponibles.
+
+cargo weight: (siendo este dato, la cantidad del peso total en los contenedores)
+unused weight: (siendo este dato la cantidad de peso que no se utilizo en los contenedores)
+unloaded weight: (siendo este dato la cantidad total de peso de los paquetes que no se pudieron
+cargar)
+
+Ejemplos Datos de Entrada
+
+Ejemplo 1:
+
+2
+10
+17
+
+5
+2
+4
+9
+3
+3
+
+Ejemplo 2:
+
+4
+20
+10
+5
+25
+
+14
+6
+8
+3
+4
+3
+7
+2
+2
+1
+9
+9
+5
+7
+8
+
+Ejemplo 3: 
+
+3
+15
+5
+17
+
+5
+4
+5
+8
+2
+4
+
+Ejemplo 4: 
+
+4 
+10
+8
+16
+20
+
+7 
+3
+4
+2
+6
+3
+2
+9
+
+Ejemplo 5: 
+
+4 
+12
+17 
+12
+12
+
+8 
+2
+3
+4
+1
+2
+5
+2
+1
+
+Ejemplos Datos de Salida
+
+A continuación, se muestra cómo deben de quedar los paquetes y contenedores según las reglas y
+condiciones que debe seguir la computadora del barco de carga.
+
+Ejemplo 1:
+
+: 3
+3 9
+4 2
+=== 
+1 2
+
+cargo weight: 21
+unused weight: 6
+unloaded weight: 0
+
+Ejemplo 2:
+
+7 2 : 3
+8 3 4 6
+=======
+1 2 3 4
+
+cargo weight: 33
+unused weight: 27
+unloaded weight: 41
+
+Ejemplo 3: 
+
+5 : 4 
+=====
+1 2 3 
+
+cargo weight: 9 
+unused weight: 28 
+unloaded weight: 14  
+
+Ejemplo 4: 
+
+: : 2 3 
+2 6 4 3 
+=======
+1 2 3 4 
+
+cargo weight: 20 
+unused weight: 34 
+unloaded weight: 9
+
+Ejemplo 5: 
+
+2 2 1 5 
+3 2 4 1
+=======
+1 2 3 4 
+
+cargo weight: 20  
+unused weight: 33 
+unloaded weight: 0 
+
+Explicaciones
+
+Ejemplo 1:
+A continuación, se desglosa el análisis realizado para llegar a los resultados presentados en la
+anterior sección para los datos de salida en el ejemplo de entrada.
+
+: 2
+===
+1 2
+
+Espacio disponible contenedor 1: 10
+Espacio disponible contenedor 2: 15
+
+En primer lugar se posiciona el primer paquete del orden siguiendo las condiciones para ubicarlos,
+en este caso se ubica en el contenedor que menos paquetes tenga, pero como aplica para 1 y 2,
+pasa a la siguiente condición, la cual es ubicar el paquete en el contenedor que tenga mayor
+capacidad disponible en el momento, por lo tanto se pone en el contenedor 2, que tiene una
+capacidad de 17, mayor que 10 (contenedor 1).
+
+Luego:
+
+4 2
+===
+1 2
+
+Espacio disponible contenedor 1: 6
+Espacio disponible contenedor 2: 15
+
+El paquete 2 con peso 4 se posiciona según la primera condición. (Ubicar paquete en el contenedor
+con menos paquetes).
+Luego:
+
+: 9
+4 2
+===
+1 2
+
+Espacio disponible contenedor 1: 6
+Espacio disponible contenedor 2: 6
+
+El paquete 3 con peso 9, se posiciona según la segunda condición.
+
+3 9
+4 2
+===
+1 2
+
+Espacio disponible contenedor 1: 3
+Espacio disponible contenedor 2: 6 
+
+Se ubica el cuarto paquete con peso 3, según la primera condición.
+
+Luego:
+: 3
+3 9
+4 2
+===
+1 2
+
+Espacio disponible contenedor 1: 3
+Espacio disponible contenedor 2: 3 
+
+Finalmente se ubica el quinto paquete según la segunda condición.
+
+Para encontrar los valores de:
+
+Cargo weight: Se debe sumar los pesos de los paquetes cargados (3, 3, 4, 9, 2) = 21
+
+Unused weight: Se debe sumar cada columna y restarle ese valor a la capacidad total de cada
+contenedor, posteriormente sumar los dos resultados, de esta manera:
+
+Contenedor 1: 3 + 4 = 7, 10 – 7 = 3
+Contenedor 2: 3 + 9 + 2 = 14, 17 – 14 = 3
+3 + 3 = 6
+
+Unloaded weight: Se debe sumar el peso de los paquetes que no se pudieron cargar, en este caso
+ese valor es 0.
+
+Ejemplo 2:
+
+Seguiremos los mismos pasos del ejemplo 1:
+
+: : : 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 20 
+Espacio disponible contenedor 2: 10 
+Espacio disponible contenedor 3: 5
+Espacio disponible contenedor 4: 19 
+
+Condición 2.
+
+8 : : 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 12
+Espacio disponible contenedor 2: 10
+Espacio disponible contenedor 3: 5
+Espacio disponible contenedor 4: 19
+
+Condición 2.
+
+8 3 : 6
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 12
+Espacio disponible contenedor 2: 7
+Espacio disponible contenedor 3: 5
+Espacio disponible contenedor 4: 19
+
+Condición 2.
+
+8 3 4 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 12
+Espacio disponible contenedor 2: 7
+Espacio disponible contenedor 3: 1
+Espacio disponible contenedor 4: 19
+
+En este caso, se cumplió la condición 1.
+: : : 3
+8 3 4 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 12
+Espacio disponible contenedor 2: 7
+Espacio disponible contenedor 3: 1
+Espacio disponible contenedor 4: 16
+
+Condición 2.
+7 : : 3
+8 3 4 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 5
+Espacio disponible contenedor 2: 7
+Espacio disponible contenedor 3: 1 
+Espacio disponible contenedor 4: 16
+
+Condición 2.
+7 2 : 3
+8 3 4 6
+=======
+1 2 3 4
+
+Espacio disponible contenedor 1: 5
+Espacio disponible contenedor 2: 5
+Espacio disponible contenedor 3: 1
+Espacio disponible contenedor 4: 16
+
+Condición 2.
+7 2 : 3
+8 3 4 6
+=======
+1 2 3 4
+
+En este caso se interrumpe la operación, a pesar de que se cumple la condición 1, el contenedor se
+queda sin espacio disponible para recibir paquetes, por lo tanto no puede cargar el paquete con
+peso 2, ya que solo le queda 1 ton disponible.
+
+Cargo weight: (7 + 2 + 3 + 8 + 3 + 4 + 6) = 33.
+
+Unused weight:
+Contenedor 1: 8 + 7 = 15, 20 – 15 = 5
+Contenedor 2: 3 + 2 = 5, 10 – 5 = 5
+Contenedor 3: 5 – 4 = 1
+Contenedor 4: 6 + 3 = 9, 25 – 9 = 16
+5 + 5 + 1 + 16 = 27
+
+Unloaded weight:
+2 + 2 + 1 + 9 + 9 + 5 + 7 + 8 = 41. 
+
+Ejemplo 3: 
+
+Condición 2. 
+
+: : 4 
+=====
+1 2 3
+
+Espacio disponible contenedor 1: 15
+Espacio disponible contenedor 2: 5
+Espacio disponible contenedor 3: 13
+
+Condición 2. 
+
+5 : 4 
+=====
+1 2 3 
+
+Espacio disponible contenedor 1: 10
+Espacio disponible contenedor 2: 5
+Espacio disponible contenedor 3: 13 
+
+Condición 1. 
+
+5 : 4 
+=====
+1 2 3  
+
+En este caso el proceso finaliza ya que el contenedor 2 no puede llevar el paquete que pesa 8. 
+
+cargo weight: 5 + 4 = 9 
+unused weight: 10 + 5 + 13 = 28 
+unloaded weight: 8 + 2 + 4 = 14 
+
+Ejemplo 4: 
+
+Condición 2. 
+
+: : : 3 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 10 
+Espacio disponible contenedor 2: 8
+Espacio disponible contenedor 3: 16
+Espacio disponible contenedor 4: 17 
+
+Condición 2: 
+
+: : 4 3 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 10
+Espacio disponible contenedor 2: 8
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 17
+
+Condición 2. 
+
+2 : 4 3
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 8
+Espacio disponible contenedor 2: 8
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 17 
+
+Condición 1: 
+
+2 6 4 3
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 8
+Espacio disponible contenedor 2: 2
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 17
+
+Condición 2: 
+
+: : : 3 
+2 6 4 3 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 8
+Espacio disponible contenedor 2: 2
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 14 
+
+Condición 2: 
+
+: : 2 3 
+2 6 4 3 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 8
+Espacio disponible contenedor 2: 2
+Espacio disponible contenedor 3: 10
+Espacio disponible contenedor 4: 14 
+
+El proceso se detiene ya que no puede cargar el ultimo paquete con peso 9. 
+
+cargo weight: 2 + 2 + 3 + 3 + 4 + 6 = 20 
+unused weight: 8 + 2 + 10 + 14 = 34 
+unloaded weight: 9 
+
+Ejemplo 5: 
+
+Condición 2: 
+
+: 2 : : 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 12
+Espacio disponible contenedor 2: 15
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 12
+
+Condición 3. 
+
+3 2 : : 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 9 
+Espacio disponible contenedor 2: 15
+Espacio disponible contenedor 3: 12
+Espacio disponible contenedor 4: 12
+
+Condición 3: 
+
+3 2 4 : 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 9
+Espacio disponible contenedor 2: 15
+Espacio disponible contenedor 3: 8
+Espacio disponible contenedor 4: 12
+
+Condición 1: 
+
+3 2 4 1
+======= 
+1 2 3 4 
+
+Espacio disponible contenedor 1: 9
+Espacio disponible contenedor 2: 15
+Espacio disponible contenedor 3: 8
+Espacio disponible contenedor 4: 11
+
+Condición 2: 
+
+: 2 : : 
+3 2 4 1 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 9 
+Espacio disponible contenedor 2: 13 
+Espacio disponible contenedor 3: 8
+Espacio disponible contenedor 4: 11
+
+Condición 2. 
+
+: 2 : 5 
+3 2 4 1 
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 9
+Espacio disponible contenedor 2: 13 
+Espacio disponible contenedor 3: 8 
+Espacio disponible contenedor 4: 6 
+
+Condición 2. 
+
+2 2 : 5 
+3 2 4 1
+======= 
+1 2 3 4     
+
+Espacio disponible contenedor 1: 7 
+Espacio disponible contenedor 2: 13 
+Espacio disponible contenedor 3: 8
+Espacio disponible contenedor 4: 6
+
+Condición 1: 
+
+2 2 1 5 
+3 2 4 1
+=======
+1 2 3 4 
+
+Espacio disponible contenedor 1: 7
+Espacio disponible contenedor 2: 13 
+Espacio disponible contenedor 3: 7 
+Espacio disponible contenedor 4: 6 
+
+cargo weight: 2 + 2 + 1 + 5 + 3 + 2 + 4 + 1 = 20  
+unused weight: 7 + 13 + 7 + 6 = 33 
+unloaded weight: 0 

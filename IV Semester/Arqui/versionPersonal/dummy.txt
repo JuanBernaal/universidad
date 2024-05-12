@@ -1,0 +1,28 @@
+.type
+
+R : ( opcode 6 ) ( rs 5 ) ( rt 5 ) ( rd 5 ) ( shamt 5 ) ( funct 5 )
+I : ( opcode 6 ) ( rd 5 ) ( rs 5 ) ( inmediate 15 )
+J : ( opcode 6 ) ( address 25 )
+
+.instruction
+
+add R
+reg( rd ), reg( rs ), reg( rt )
+opcode -> 0 | shamt -> 0 | funct -> 20 | |
+end
+
+addi I
+reg( rd ), reg( rs ), inm( inmediate )
+|
+end
+
+.register
+
+$zero -> 0
+$at -> 1
+$t0 -> 8
+$t1 -> 9
+$t2 -> 10
+
+
+.end
