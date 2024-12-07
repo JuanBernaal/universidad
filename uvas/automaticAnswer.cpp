@@ -1,7 +1,7 @@
 /* 
-Author: Juan David Bernal Maldonado
-MM/DD/YY: 05/10/2024
-UVA: 11547 - Automatic Answer
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/10/2024.
+UVA: 11547 - Automatic Answer.
 */
 
 #include <iostream> 

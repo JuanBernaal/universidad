@@ -1,7 +1,7 @@
 /*
-Author: Juan David Bernal Maldonado
-MM/DD/YY: 02/24/2024
-UVA: 10071 - Back to High School Physics
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 02/24/2024.
+UVA: 10071 - Back to High School Physics.
 */
 
 #include <iostream>
