@@ -1,6 +1,7 @@
-/*
-Juan David Bernal Maldonado
-04/05/2024
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/04/2024.
+UVA: 10424 - Love Calculator.
 */
 
 #include <iostream>

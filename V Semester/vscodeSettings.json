@@ -1,0 +1,20 @@
+{
+    "workbench.colorTheme": "One Dark Pro Mix",
+    "workbench.iconTheme": "material-icon-theme",
+    "window.zoomLevel": 2.6,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "workbench.sideBar.location": "right",
+    "editor.minimap.enabled": false,
+    "editor.guides.indentation": false,
+    "indenticator.width": 0.1, 
+    "indenticator.color.dark": "rgba(255,255,255,0.1)",
+    "editor.matchBrackets": "never",
+    "breadcrumbs.enabled": false,
+    "editor.glyphMargin": false,
+    "workbench.statusBar.visible": false,
+    "workbench.editor.showTabs": false,
+    "editor.scrollbar.vertical": "hidden",
+    "editor.overviewRulerBorder": false,
+    "editor.hideCursorInOverviewRuler": true,
+    "workbench.activityBar.location": "top"
+}

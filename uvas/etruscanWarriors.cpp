@@ -1,6 +1,7 @@
-/*
-Autor: Juan David Bernal
-05/06/24 - Mayo del 2024
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/06/2024.
+UVA: 11614 - Etruscan Warriors Never Play Chess.
 */
 
 #include <iostream>

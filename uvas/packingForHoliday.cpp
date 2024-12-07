@@ -1,7 +1,7 @@
-/*
-Juan David Bernal Maldonado
-05/10/2024
-Solution to UVa 12372.
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/10/2024.
+UVA: 12372 - Packing for Holiday.
 */
 
 #include <iostream>

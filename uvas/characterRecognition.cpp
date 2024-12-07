@@ -1,6 +1,7 @@
-/*
-Autor: Juan David Bernal Maldonado.
+/* 
+Author: Juan David Bernal Maldonado.
 MM/DD/YY: 05/11/2024.
+UVA: 12658 - Character Recognition.
 */
 
 #include <iostream>

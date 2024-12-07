@@ -1,6 +1,7 @@
-/*
-Juan David Bernal Maldonado
-05/10/2024
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/10/2024.
+UVA: 11764 - Jumping Mario.
 */
 
 #include <iostream>

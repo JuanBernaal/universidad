@@ -1,6 +1,7 @@
-/*
-Autor: Juan David Bernal Maldonado
-Fecha: 05/11/2024
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 05/11/2024.
+UVA: 11332 - Summing Digits.
 */
 
 #include <iostream> 

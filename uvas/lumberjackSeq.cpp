@@ -1,6 +1,7 @@
-/*
-Author: Juan David Bernal Maldonado
-12/03/2023
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 12/03/2024.
+UVA: 11942 - Lumberjack Sequencing.
 */
 
 #include <iostream>

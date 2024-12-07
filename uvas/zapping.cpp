@@ -1,6 +1,7 @@
-/*
-Autor: Juan David Bernal Maldonado
-01/08/2024
+/* 
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 01/08/2024.
+UVA: 12468 - Zapping.
 */
 
 #include <iostream>

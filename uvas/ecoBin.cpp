@@ -1,6 +1,7 @@
 /*
-Autor: Juan David Bernal Maldonado
-MM/DD/YY: 11/27/2023
+Author: Juan David Bernal Maldonado.
+MM/DD/YY: 11/27/2023.
+UVA: 102 - Ecological Bin Packing.
 */
 
 #include <vector>
